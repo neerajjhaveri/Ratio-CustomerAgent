@@ -1,0 +1,136 @@
+{
+  "actions": [
+    {
+      "id": "ACT-ICM-001",
+      "display_name": "Create IcM Ticket for Service Team",
+      "type": "icm_ticket",
+      "tier": "auto",
+      "description": "Create an IcM ticket for the owning service team with investigation findings, confirmed hypothesis, and evidence summary. Links the ticket to the triggering incident if one exists.",
+      "applicable_hypotheses": [
+        "HYP-SLI-001",
+        "HYP-SLI-002",
+        "HYP-SLI-003",
+        "HYP-SLI-004",
+        "HYP-SLI-005",
+        "HYP-DEP-001"
+      ],
+      "applicable_categories": ["sli", "dependency"],
+      "min_confidence": 0.4,
+      "payload_template": {
+        "title": "RATIO Investigation: {hypothesis_statement}",
+        "severity": "{investigation_severity}",
+        "owning_team": "{owning_tenant_name}",
+        "description": "Customer: {customer_name}\nService: {service_tree_id}\nHypothesis: {hypothesis_id} — {hypothesis_statement}\nConfidence: {confidence}\n\nEvidence Summary:\n{evidence_summary}\n\nSymptom Verdicts:\n{symptom_verdicts_summary}"
+      }
+    },
+    {
+      "id": "ACT-ICM-002",
+      "display_name": "Create IcM Ticket for Dependency Service Team",
+      "type": "icm_ticket",
+      "tier": "gated",
+      "description": "Create an IcM ticket for the dependency service team when a dependency failure is confirmed. Requires human approval since it targets a team outside the primary service.",
+      "applicable_hypotheses": [
+        "HYP-DEP-001"
+      ],
+      "applicable_categories": ["dependency"],
+      "min_confidence": 0.6,
+      "payload_template": {
+        "title": "RATIO: Dependency Failure Impacting {customer_name} — {hypothesis_statement}",
+        "severity": "{investigation_severity}",
+        "owning_team": "{dependency_service_team}",
+        "description": "Dependency service degradation confirmed as root cause.\n\nCustomer: {customer_name}\nService: {service_tree_id}\nDependency: {dependency_service_name}\nHypothesis: {hypothesis_id}\nConfidence: {confidence}\n\nEvidence Summary:\n{evidence_summary}"
+      }
+    },
+    {
+      "id": "ACT-EMAIL-001",
+      "display_name": "Notify AED Team via Email",
+      "type": "email_notification",
+      "tier": "auto",
+      "description": "Send an email notification to the AED team with the investigation summary, confirmed hypothesis, customer impact, and recommended next steps.",
+      "applicable_hypotheses": [
+        "HYP-OUT-001",
+        "HYP-OUT-002",
+        "HYP-OUT-003",
+        "HYP-OUT-004",
+        "HYP-OUT-005",
+        "HYP-SLI-001",
+        "HYP-SLI-002",
+        "HYP-SLI-003",
+        "HYP-SLI-004",
+        "HYP-SLI-005",
+        "HYP-DEP-001",
+        "HYP-RISK-003"
+      ],
+      "applicable_categories": ["outage", "sli", "dependency", "risk"],
+      "min_confidence": 0.4,
+      "payload_template": {
+        "recipients": ["aed-team"],
+        "subject": "RATIO Alert: {hypothesis_name} — {customer_name}",
+        "body_summary": "Investigation {investigation_id} for {customer_name} (service {service_tree_id}) has identified:\n\nHypothesis: {hypothesis_id} — {hypothesis_statement}\nStatus: {hypothesis_status}\nConfidence: {confidence}\n\nKey Findings:\n{key_findings}\n\nRecommended Actions:\n{recommended_actions}"
+      }
+    },
+    {
+      "id": "ACT-MONITOR-001",
+      "display_name": "Schedule Follow-up Monitoring Check",
+      "type": "monitor",
+      "tier": "auto",
+      "description": "Schedule a follow-up SLI/incident re-check after 30 minutes to verify the issue is resolving. Applicable when an active outage or SLI breach is confirmed — validates that remediation is taking effect.",
+      "applicable_hypotheses": [
+        "HYP-OUT-001",
+        "HYP-OUT-002",
+        "HYP-SLI-001",
+        "HYP-SLI-002",
+        "HYP-SLI-005"
+      ],
+      "applicable_categories": ["outage", "sli"],
+      "min_confidence": 0.5,
+      "payload_template": {
+        "check_type": "sli_recheck",
+        "delay_minutes": 30,
+        "customer_name": "{customer_name}",
+        "service_tree_id": "{service_tree_id}",
+        "watch_slis": "{impacted_sli_ids}",
+        "baseline_values": "{current_sli_values}"
+      }
+    },
+    {
+      "id": "ACT-ESCALATE-001",
+      "display_name": "Escalate to CritSit / DRI",
+      "type": "escalate",
+      "tier": "gated",
+      "description": "Escalate to CritSit or DRI (Designated Responsible Individual) when high-confidence confirmation of broad customer impact — multiple subscriptions, regions, or customers affected. Requires human approval.",
+      "applicable_hypotheses": [
+        "HYP-SLI-004",
+        "HYP-SLI-005"
+      ],
+      "applicable_categories": ["sli"],
+      "min_confidence": 0.7,
+      "payload_template": {
+        "escalation_type": "critsit",
+        "severity": "{investigation_severity}",
+        "customer_name": "{customer_name}",
+        "service_tree_id": "{service_tree_id}",
+        "impact_scope": "{impact_scope}",
+        "justification": "High-confidence ({confidence}) broad-impact hypothesis confirmed: {hypothesis_statement}"
+      }
+    },
+    {
+      "id": "ACT-LINK-001",
+      "display_name": "Link Support Ticket to IcM Incident",
+      "type": "link_incident",
+      "tier": "auto",
+      "description": "Link the customer's support ticket to the correlated IcM incident. Applicable when HYP-OUT-004 confirms a direct ticket-to-incident correlation — ensures the support case is tracked against the platform incident.",
+      "applicable_hypotheses": [
+        "HYP-OUT-004"
+      ],
+      "applicable_categories": ["outage"],
+      "min_confidence": 0.6,
+      "payload_template": {
+        "incident_id": "{incident_id}",
+        "support_ticket_id": "{support_ticket_id}",
+        "customer_name": "{customer_name}",
+        "correlation_confidence": "{confidence}"
+      }
+    }
+  ]
+}

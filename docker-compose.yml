@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  # ── CustomerAgent FastAPI backend ─────────────────────────
+  customer-agent:
+    build:
+      context: ./Code/CustomerAgent
+      dockerfile: src/Dockerfile
+    ports:
+      - "8503:8503"
+    env_file:
+      - .env
+      - ./Code/CustomerAgent/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8503/health')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+  # ── Streamlit UI ──────────────────────────────────────────
+  customer-agent-ui:
+    build:
+      context: ./Code/CustomerAgent
+      dockerfile: streamlit/Dockerfile
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+      - ./Code/CustomerAgent/.env
+    restart: unless-stopped
+    depends_on:
+      customer-agent:
+        condition: service_healthy
+
+  # ── Static frontend server ────────────────────────────────
+  customer-agent-frontend:
+    build:
+      context: ./Code/CustomerAgent
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5020:5020"
+    environment:
+      - UI_PORT=5020
+      - API_BASE=http://customer-agent:8503
+    restart: unless-stopped
+    depends_on:
+      customer-agent:
+        condition: service_healthy

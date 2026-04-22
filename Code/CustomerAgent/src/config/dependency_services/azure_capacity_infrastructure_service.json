@@ -1,0 +1,20 @@
+{
+  "name": "Azure Capacity Infrastructure Service",
+  "service_tree_id": "8f563fbf-2a28-4e02-992f-ca9eda6df7fc",
+  "category": "compute_infrastructure",
+  "impact_description": "Manages compute capacity infrastructure. Degradation causes VM creation timeouts and capacity shortages in affected regions/zones.",
+  "sli_symptoms": [
+    {
+      "sliId": "CIS FrontEnd SLOs.FE Availability.Signal",
+      "symptoms": ["VM creation requests fail or time out in affected regions/zones"]
+    },
+    {
+      "sliId": "CIS FrontEnd SLOs.CIS FE request successful rate.Signal",
+      "symptoms": ["VM creation requests fail or time out in affected regions/zones"]
+    },
+    {
+      "sliId": "CIS Backend SLOs.CIS Host Availability.Signal",
+      "symptoms": ["VM creation requests fail or time out in affected regions/zones"]
+    }
+  ]
+}

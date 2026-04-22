@@ -1,0 +1,61 @@
+{
+  "templates": [
+    {
+      "id": "SYM-OUT-001",
+      "name": "Incident Detected",
+      "signal_sources": ["SIG-TYPE-3"],
+      "weight": 1,
+      "template": "Incident '{incident_id}' (Severity {severity}) created by '{owning_tenant_name}': '{title}'. Created: {create_date}, Impact start: {impact_start_date}. Customer may be impacted.",
+      "extracted_when": "An incident exists in the dataset for the relevant time window, regardless of outage confirmation status.",
+      "fields": {
+        "from_data": ["incident_id", "severity", "is_outage", "status", "title", "create_date", "impact_start_date", "child_count", "support_ticket_id", "owning_tenant_name"]
+      },
+      "filters": {
+        "status_active": true
+      }
+    },
+    {
+      "id": "SYM-OUT-002",
+      "name": "Confirmed Outage",
+      "signal_sources": ["SIG-TYPE-3"],
+      "weight": 3,
+      "template": "Incident '{incident_id}' (Severity {severity}) by '{owning_tenant_name}' is a confirmed outage: '{title}'. Impact started: {impact_start_date}. {child_count} child incidents reported.",
+      "extracted_when": "The incident has IsOutage set to true, confirming customer-facing impact. This is the strongest outage signal.",
+      "fields": {
+        "from_data": ["incident_id", "severity", "is_outage", "status", "title", "impact_start_date", "child_count", "owning_tenant_name"]
+      },
+      "filters": {
+        "is_outage": true
+      }
+    },
+    {
+      "id": "SYM-OUT-003",
+      "name": "Outage Time Overlap with SLI Breach",
+      "signal_sources": ["SIG-TYPE-3", "SIG-TYPE-1"],
+      "weight": 3,
+      "template": "Incident '{incident_id}' (impact start: {impact_start_date}) overlaps with SLI breach on subscription '{subscription_id}' in region '{region}' (breach start: {earliest_impact_start}). Time delta: {delta_minutes} minutes. This temporal correlation suggests the incident caused the SLI degradation.",
+      "extracted_when": "An incident's ImpactStartDate falls within a reasonable time window of an SLI breach's EarliestImpactStart, indicating temporal correlation between platform incident and customer SLI impact.",
+      "fields": {
+        "from_data": ["incident_id", "severity", "status", "title", "impact_start_date", "owning_tenant_name"],
+        "llm_derived": ["delta_minutes", "subscription_id", "region", "earliest_impact_start"]
+      },
+      "filters": {
+        "max_delta_minutes": 60
+      }
+    },
+    {
+      "id": "SYM-OUT-004",
+      "name": "Customer-Correlated Incident",
+      "signal_sources": ["SIG-TYPE-3", "SIG-TYPE-2"],
+      "weight": 2,
+      "template": "Incident '{incident_id}' (Severity {severity}) by '{owning_tenant_name}' is linked to support ticket '{support_ticket_id}': '{title}'. Impact started: {impact_start_date}. This directly correlates a platform incident with a customer complaint.",
+      "extracted_when": "The incident has a non-empty SupportTicketId, directly linking a platform incident to a customer's support request.",
+      "fields": {
+        "from_data": ["incident_id", "severity", "status", "title", "impact_start_date", "support_ticket_id", "owning_tenant_name"]
+      },
+      "filters": {
+        "support_ticket_id_present": true
+      }
+    }
+  ]
+}

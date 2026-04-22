@@ -1,0 +1,130 @@
+DATA SCOPE (EntityDomain Mapping)
+
+| EntityName                       | Domain                     | 
+|----------------------------------|----------------------------|
+| OfferingOutageAiro               | AIR-OD                     | 
+| QEIS500_Customers                | AIR-OD + QEIS              | 
+| Factless_SupportCaseToIncidentMap| AIR-OD + SupportCases      |
+| OfferingAirodTrend               | AIR-OD                     |
+| Fact_Outage                      | Outage                     |
+| Factless_IncidentImpactedServices| Outage                     |
+
+
+HIERARCHY (Domain -> AIR-OD)
+IncidentId -> Offering (one Incident: many Offerings) -> Region (one Offering : many Region)
+IncidentId -> Offering (one Incident: many Offerings) -> CustomerName (one Offering : many Customers independent of Region; NEVER combine Region + CustomerName in same row)
+
+SLICES & WHEN TO PRODUCE
+Always: Fleet (Offering-level per IncidentId).
+Then:
+- Region slice (Always): For TOP Offerings (see workflow) — RETURN TOP 10 Regions per Top Offering by AIRO (or AIROD if that is the only requested metric).
+- Customer slice (if only explicitly asked): ONLY if user mentions “customer”, “tenant”, “account”, “who was impacted” (customers), etc. If both Region and Customer requested, produce both (separate objects).
+Do NOT mix Region and CustomerName fields in one JSON object.
+
+STANDARD COLUMN / ALIAS RULES
+Active resource count aliases by slice:
+- Fleet: ActiveResourceFleetCount
+- Region: ActiveResourceRegionCount
+- Customer: ActiveResourceCustomerCount
+Calculate ComputationSource flag - If CommunicatedIncidentId is a NOT NULL then 'ACM' else 'SLI'
+All slice objects include: IncidentId, Offering, ComputationSource, ImpactedResourceCount, one ActiveResource* field, one metric field.
+Region OR CustomerName (never both), ContributionPct (Region/Customer slices only).
+If SLI comparison requested: include both ImpactedResourceCount (ComputationSource = 'ACM') and ImpactedResourceSLI (SLI) plus separate metric objects.
+
+METRICS
+AIRO = SUM(ImpactedResource) / SUM(ActiveResourcesBasis) (handled via MAX(AR_*))
+AIROD = (SUM(ImpactedResource) * SUM(ImpactDuration)) / SUM(ActiveResourcesBasis)
+SLI variants swap: ImpactedResource -> ImpactedResourceSLI; ImpactDuration -> ImpactDurationSLI.
+Use NULLIF(MAX(AR_*),0) in denominators. Cast final metrics to DECIMAL(10,4) (or DECIMAL(10,2) if summarizing narrative).
+Region/Customer: ContributionPct = 100.0 * SUM(ImpactedResource_slice) / NULLIF(SUM(ImpactedResource_offering_total),0). Compute via window function over Offering + IncidentId.
+
+METRIC FIELD NAMES (choose exactly one per object)
+AIRO_Fleet | AIRO_Region | AIRO_Customer | AIROD_Fleet | AIROD_Region | AIROD_Customer
+
+ALWAYS INCLUDE COLUMNS
+Include columns marked as AlwaysIncludeInAnalysis = True in the query as necessory and other columns if they are part of user request.
+
+GROUP BY REQUIREMENTS
+Fleet: IncidentId, Offering
+Region: IncidentId, Offering, Region
+Customer: IncidentId, Offering, CustomerName
+
+NUMERIC & SAFETY RULES
+- Avoid integer division: multiply numerator by 1.0 or use explicit CAST.
+- Use NULLIF for denominators.
+- Exclude rows where AR_* is zero unless analytically required; if excluded, note in explanations.
+- ROUND metrics to 4 decimal places in SQL; narrative may show 2 decimals.
+
+TOP-N PATTERN (Template)
+Use CTEs:
+FleetAgg -> TopOfferings (ROW_NUMBER PARTITION BY IncidentId ORDER BY AIRO_Fleet DESC) -> RegionAgg -> RegionRanked (ROW_NUMBER PARTITION BY IncidentId, Offering ORDER BY AIRO_Region DESC) -> Filter RegionRanked WHERE RowNum <= 10 -> CustomerAgg -> CustomerRanked (ROW_NUMBER ...) -> Filter RowNum <= N (default 10 for customers).
+
+
+SAMPLE FLEET QUERY
+SELECT
+  IncidentId,
+  Offering,
+  CASE WHEN ComputationSource IS NOT NULL THEN 'ACM' ELSE 'SLI' END AS ComputationSource,
+  MAX(AR_Fleet) AS ActiveResourceFleetCount,
+  SUM(ImpactedResource) AS ImpactedResourceCount,
+  CAST(ROUND(1.0 * SUM(ImpactedResource) / NULLIF(MAX(AR_Fleet),0), 4) AS DECIMAL(12,4)) AS AIRO_Fleet
+FROM dbo.OfferingOutageAiro
+WHERE IncidentId = @IncidentId
+GROUP BY IncidentId, Offering
+ORDER BY AIRO_Region DESC;
+
+SAMPLE REGION QUERY
+SELECT
+  IncidentId,
+  Offering,
+  Region,
+  CASE WHEN ComputationSource IS NOT NULL THEN 'ACM' ELSE 'SLI' END AS ComputationSource,
+  MAX(AR_Region) AS ActiveResourceRegionCount,
+  SUM(ImpactedResource) AS ImpactedResourceCount,
+  CAST(ROUND(1.0 * SUM(ImpactedResource) / NULLIF(MAX(AR_Region),0), 4) AS DECIMAL(12,4)) AS AIRO_Region
+FROM dbo.OfferingOutageAiro
+WHERE IncidentId = @IncidentId
+GROUP BY IncidentId, Offering, Region
+ORDER BY AIRO_Region DESC;
+
+SAMPLE CUSTOMER QUERY
+SELECT
+  IncidentId,
+  Offering,
+  CustomerName,
+  CASE WHEN ComputationSource IS NOT NULL THEN 'ACM' ELSE 'SLI' END AS ComputationSource,
+  MAX(AR_Customer) AS ActiveResourceCustomerCount,
+  SUM(ImpactedResource) AS ImpactedResourceCount,
+  CAST(ROUND(1.0 * SUM(ImpactedResource) / NULLIF(MAX(AR_Customer),0), 4) AS DECIMAL(12,4)) AS AIRO_Customer
+FROM dbo.OfferingOutageAiro
+WHERE IncidentId = @IncidentId
+GROUP BY IncidentId, Offering, CustomerName
+ORDER BY AIRO_Customer DESC;
+
+
+POSSIBLE DATASETS (generated based on user intent)
+- AIRO_Fleet (AIROD_Fleet if explicit)
+  - Grain: IncidentId, Offering
+  - Source: OfferingOutageAiro
+  - Columns: all core attributes plus metrics where `AlwaysIncludeInAnalysis = True`.
+
+- AIRO_Region (AIROD_Region if explicit)
+  - Grain: IncidentId, Offering, Region
+  - Source: OfferingOutageAiro
+  - Measure: all core attributes plus metrics where `AlwaysIncludeInAnalysis = True`.
+
+- AIRO_Customer (AIROD_Customer if explicit)
+  - Grain: IncidentId, Offering, CustomerName
+  - Source: OfferingOutageAiro
+  - Measure: all core attributes plus metrics where `AlwaysIncludeInAnalysis = True`.
+
+INTENT → DATASET GUIDANCE 
+- Service AIRO Impact : include when explicit ask is for fleet or service AIRO
+- AIRO Regional Impact : Include both AIRO_Fleet and AIRO_Region 
+- AIRO Insights: include all datasets listed above to provide a comprehensive view.
+
+PROHIBITED
+- Mixing ACM and SLI components in one metric.
+- Combining Region and CustomerName in a single object.
+- Outputting AIROD or SLI without explicit request.
+

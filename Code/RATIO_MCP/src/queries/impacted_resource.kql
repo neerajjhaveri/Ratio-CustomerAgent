@@ -1,0 +1,84 @@
+declare query_parameters (serviceTreeId:string, customerName:string, startTime:datetime, endTime:datetime, endTime:datetime);
+// let startTime = ago(30m);
+// let endTime = now();
+let tableSLIMapping =
+cluster('bdsair.centralus.kusto.windows.net').database('Airogreen').external_table('External_SliIdToSliTableMapping')
+    | where isnotempty(SliTableName)
+    | where Category !contains "Latency"
+    | where State =~ "Production"   
+    | where ServiceTreeId contains serviceTreeId //'734379f9-2d2c-48d4-a52a-5c509f699de4'
+;
+let subscriptionList = 
+    cluster('icmanalytics.centralus.kusto.windows.net').database('Analytics').Dim_C360CustomerSubscriptions 
+// | where SubscriptionGuid == '5e33cd3a-5267-44db-81a0-1719ea52b7ad'
+| where MSCustomerName =~  customerName //"Cloud + AI Platform - Azure Data - Azure Data - Azure Databases"
+| distinct SubscriptionGuid, CustomerName = MSCustomerName
+;
+let ImpactedResource =
+    tableSLIMapping
+    | where ServiceTreeId ==  serviceTreeId//'734379f9-2d2c-48d4-a52a-5c509f699de4'
+    | project SliTableName, Target
+    | order by SliTableName asc
+    | extend formatted = strcat('(cluster("bdssli.westcentralus").database("slidata").["', SliTableName, '"]',
+        " | where EndTimeUtc >= datetime(", format_datetime(startTime, 'yyyy-MM-dd HH:mm:ss'), ")",
+        " and EndTimeUtc < datetime(", format_datetime(endTime, 'yyyy-MM-dd HH:mm:ss'), ")",
+        " and Value < ", todecimal(Target),
+        ' | extend SubscriptionId = extract(@"/subscriptions/([^/]+)", 1, CustomerResourceId)',
+        ' | extend Region = tolower(replace_string(iif(LocationId startswith "ms-loc",extract(@"^ms-loc://az/\\w*/([^/?]+)", 1, LocationId),LocationId)," ", ""))',
+        ' | join kind=inner (subscriptionList) on $left.SubscriptionId == $right.SubscriptionGuid',
+        ' | project-away SubscriptionGuid',
+        ')'
+    );
+let fullQuery =
+    ImpactedResource
+    | summarize tables = strcat_array(make_list(formatted), ', ')
+    | extend query = strcat(
+        "union ", tables
+    )
+    | take 1
+    | project query;
+   let allRecords =evaluate execute_query('.', toscalar(fullQuery)) ;
+// let allRecords = materialize(evaluate execute_query('.', toscalar(ImpactedResource)));
+// Step 1: Filter degraded, sort, serialize
+let degraded = 
+    allRecords
+    | order by CustomerName asc, CustomerResourceId asc, SLO_SliId asc, StartTimeUtc asc
+    | serialize
+;
+// Step 2: Detect island boundaries per resource
+let withIslands = 
+    degraded
+    | extend IsNewIsland = iif(
+        CustomerResourceId != prev(CustomerResourceId) 
+        or SLO_SliId != prev(SLO_SliId) 
+        or Region != prev(Region) 
+        or StartTimeUtc != prev(EndTimeUtc), 
+        1, 0)
+    | extend IslandId = row_cumsum(IsNewIsland)
+;
+// Step 3: Collapse into per-resource impact windows
+let resourceImpacts = 
+    withIslands
+    | summarize 
+        WindowStart = min(StartTimeUtc), 
+        WindowEnd = max(EndTimeUtc),
+        RecordCount = count(),
+        ImpactDurationMin = datetime_diff('minute', max(EndTimeUtc), min(StartTimeUtc)),
+        AvgValue = avg(Value),
+        MinValue = min(Value)
+        by CustomerResourceId, CustomerName, SLO_SliId, Region, Tenant, IslandId
+    | project-away IslandId
+;
+// Step 4: Extract SubscriptionId and summarize per subscription
+resourceImpacts
+| extend SubscriptionId = extract(@"/subscriptions/([^/]+)", 1, CustomerResourceId)
+| summarize 
+    ImpactedResources = dcount(CustomerResourceId),
+    TotalImpactDurationMin = sum(ImpactDurationMin),
+    EarliestImpactStart = min(WindowStart),
+    LatestImpactEnd = max(WindowEnd),
+    AvgValueAcrossWindows = avg(AvgValue),
+    MinValueAcrossWindows = min(MinValue)
+    // ImpactWindows = count()
+    by CustomerName, SubscriptionId, Region, SLO_SliId
+| order by TotalImpactDurationMin desc

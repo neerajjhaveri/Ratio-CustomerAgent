@@ -1,0 +1,112 @@
+
+PRIMARY GRAIN:
+Default grain: per IncidentId.
+
+OUTAGE DOMAIN ENTITIES:
+| EntityName                         | Domain                     | Description                                         |
+|------------------------------------|----------------------------|-----------------------------------------------------|
+| Fact_Outage                        | Outage                    | Core outage facts per IncidentId                    |
+| Fact_IcmEvent                      | Outage                    | Event-level view aggregating related incidents      |
+| Fact_MsoExploded                   | Outage                    | Multi-service outage (MSO) exploded by service      |
+| Fact_CritSit                       | Outage                    | CritSit support cases and their attributes          |
+| QEIS500_Customers                  | Outage + QEIS             | Customer master / segmentation attributes           |
+| Factless_SupportCaseToIncidentMap  | Outage + SupportCases     | Mapping between support cases and incidents         |
+| Fact_CustomerTTN                   | Outage + OutageCommunication | Customer communication and notification timings  |
+| Fact_RepairItems                   | Outage + Repairs          | Repair actions taken for an outage                  |
+| Fact_OutageCost                    | Outage + Cost             | Monetary impact and cost breakdown for an outage    |
+
+
+BUSINESS CONCEPTS:
+- Outage: An IncidentId that is declared as an outage.
+- CritSit: Critical situation; a customer-reported case with severity A (Sev A).
+- Outage Communication: Customer communications sent for an outage. Some communications are sent before a CritSit is opened, others after. Earlier communication generally leads to better customer experience.
+- MSO (Multi Service Outage): An outage impacting multiple services.
+- Event: An outage (the root responsible IncidentId) that causes multiple other incidents, where the event holds aggregated impact across all outages caused by it.
+- Outage Cost: Cost associated with an outage, including revenue loss for the customer, DRI cost, and other operational costs.
+
+METRICS (include if relevant):
+- TotalCritSits
+- MLLinkedCritSits
+- ManualLinkedCritSits
+- FirstCommTimeService
+
+METRIC DEFINITIONS (default grain: IncidentId unless noted):
+- TotalCritSits: COUNT DISTINCT CritSit support cases linked to an IncidentId
+  via either ManualLinkedIncidentId OR MLLinkedIncidentId in Factless_SupportCaseToIncidentMap.
+  from Fact_CustomerTTN.
+METRIC DEFINITIONS (default grain: IncidentId unless noted):
+- TotalCritSits: COUNT DISTINCT CritSit support cases linked to an IncidentId via either ManualLinkedIncidentId OR MLLinkedIncidentId in Factless_SupportCaseToIncidentMap.
+- ManualLinkedCritSits: COUNT DISTINCT CritSit cases where ManualLinkedIncidentId = IncidentId.
+- MLLinkedCritSits: COUNT DISTINCT CritSit cases where MLLinkedIncidentId = IncidentId.
+- FirstCommTimeService (grain: IncidentId, ServiceName): MIN(FirstCommTimeService) per IncidentId + ServiceName from Fact_CustomerTTN.
+
+EXAMPLE (Simplified) QUERY:
+Purpose: For a given list of IncidentIds, compute CritSit counts by linkage type.
+Note: `{incident_id_list}` is a placeholder to be replaced with a list of IncidentIds (e.g. 'INC1','INC2').
+WITH base AS (
+  SELECT fo.IncidentId,
+         fo.Severity,
+         fo.IsQCO,
+         fo.TTM
+  FROM Fact_Outage fo
+  WHERE fo.IncidentId IN ({incident_id_list})
+),
+linkage AS (
+  SELECT
+    COALESCE(ManualLinkedIncidentId, MLLinkedIncidentId) AS IncidentId,
+    CASE WHEN IsCritSit = 1 THEN CaseNumber END AS CritSitCaseNumber,
+    CASE WHEN IsCritSit = 1 AND ManualLinkedIncidentId IS NOT NULL THEN CaseNumber END AS ManualCase,
+    CASE WHEN IsCritSit = 1 AND MLLinkedIncidentId IS NOT NULL THEN CaseNumber END AS MLCase
+  FROM Factless_SupportCaseToIncidentMap
+  WHERE (ManualLinkedIncidentId IN ({incident_id_list})
+         OR MLLinkedIncidentId IN ({incident_id_list}))
+)
+SELECT
+  b.IncidentId,
+  b.Severity,
+  b.IsQCO,
+  b.TTM,
+  COUNT(DISTINCT l.CritSitCaseNumber) AS TotalCritSits,
+  COUNT(DISTINCT l.MLCase)            AS MLLinkedCritSits,
+  COUNT(DISTINCT l.ManualCase)        AS ManualLinkedCritSits
+FROM base b
+LEFT JOIN linkage l ON l.IncidentId = b.IncidentId
+GROUP BY b.IncidentId, b.Severity, b.IsQCO, b.TTM
+ORDER BY b.IncidentId;
+
+POSSIBLE DATASETS BASED ON USER INTENT (indicative):
+- OutageDetails: Core outage attributes per IncidentId (severity, duration, impact, TTX metrics).
+- CritSitDistributionByCustomer: Count of CritSits by customer or customer segment.
+- CritSitDistributionByProduct: Count of CritSits by product / service.
+- CritSitHourlyBuckets: CritSit counts by hour-of-day buckets along with timestamps like ImpactStartDate, MitigateDate, IncidentCreateDate.
+- RootCauseAnalysis: Outage-level root cause, contributing factors, and components.
+- MultiServiceEvents: MSO event with impacted services and aggregated impact.
+
+
+GUIDANCE FOR OUTAGE CONTENT:
+- Always respect the primary grain (per IncidentId) unless the user asks for aggregation.
+- Prefer interpretable, business-friendly metric names and explain them briefly in plain language.
+- Emphasize critsit analysis, customer impact, communication timeliness, and multi-service effects (MSO) when summarizing outages.
+
+
+INTENT-TO-FIELDS GUIDANCE (WHAT TO INCLUDE IN OUTAGE CONTENT):
+- When user asks for CritSit analysis for an outage (for example: "CritSit analysis for outage X" or "CritSit impact for IncidentId X"), always include at minimum the following fields per relevant CritSit / outage row if available:
+  - CustomerName
+  - CaseNumber
+  - CreatedOn (CritSit case creation time)
+  - ProductName (or ServiceName / Offering as applicable)
+  - ImpactStartDate (when customer impact started)
+  - IncidentCreateDate (when the incident was created)
+  - MitigateDate (when the outage was mitigated / resolved)
+  - FirstCommTimeService (first communication timestamp per IncidentId + ServiceName)
+- When summarizing CritSit analysis in natural language, tie these fields back to customer impact and responsiveness. For example, highlight how long after ImpactStartDate the IncidentCreateDate occurred, and how long it took to send the first communication vs. MitigateDate.
+
+- When User asks for communication timelines always include at minimum the following fields per relevant outage row if available:
+  - FirstCommTimeService
+  - ImpactStartDate
+  - FirstCritSitCreatedOn
+  - MitigateDate
+  - IncidentCreateDate
+
+- When user aks event details always include at minimum the following fields per relevant outage row if available:
+  - All metrics from Fact_IcmEvent

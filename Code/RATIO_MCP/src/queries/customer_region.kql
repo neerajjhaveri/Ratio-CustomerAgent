@@ -1,0 +1,40 @@
+declare query_parameters (serviceTreeId:string, customerName:string);
+let startTime = ago(30m);
+let endTime = now();
+let tableSLIMapping =
+cluster('bdsair.centralus.kusto.windows.net').database('Airogreen').external_table('External_SliIdToSliTableMapping')
+    | where isnotempty(SliTableName)
+    | where State =~ "Production"   
+    | where ServiceTreeId contains serviceTreeId
+;
+let subscriptionList = 
+    cluster('icmanalytics.centralus.kusto.windows.net').database('Analytics').Dim_C360CustomerSubscriptions 
+    | where MSCustomerName =~ customerName
+    | distinct SubscriptionGuid, CustomerName = MSCustomerName
+;
+// Query ALL monitored resources (no Value < Target filter) to discover customer regions
+let allResources =
+    tableSLIMapping
+    | where ServiceTreeId == serviceTreeId
+    | project SliTableName
+    | order by SliTableName asc
+    | extend formatted = strcat('(cluster("bdssli.westcentralus").database("slidata").["', SliTableName, '"]',
+        " | where EndTimeUtc >= datetime(", format_datetime(startTime, 'yyyy-MM-dd HH:mm:ss'), ")",
+        " and EndTimeUtc < datetime(", format_datetime(endTime, 'yyyy-MM-dd HH:mm:ss'), ")",
+        ' | extend SubscriptionId = extract(@"/subscriptions/([^/]+)", 1, CustomerResourceId)',
+        ' | extend Region = tolower(replace_string(iif(LocationId startswith "ms-loc",extract(@"^ms-loc://az/\\w*/([^/?]+)", 1, LocationId),LocationId)," ", ""))',
+        ' | join kind=inner (subscriptionList) on $left.SubscriptionId == $right.SubscriptionGuid',
+        ' | project CustomerName, Region',
+        ' | distinct CustomerName, Region',
+        ')'
+    );
+let fullQuery =
+    allResources
+    | summarize tables = strcat_array(make_list(formatted), ', ')
+    | extend query = iif(isempty(tables),
+        "print dummy=1 | where 1==0 | extend CustomerName='', Region=''",
+        strcat("union ", tables))
+    | take 1
+    | project query;
+evaluate execute_query('.', toscalar(fullQuery))
+| distinct CustomerName, Region

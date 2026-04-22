@@ -1,0 +1,116 @@
+{
+  "prompts": [
+    {
+      "name": "airod_analyst_prompt",
+      "log_content": true,
+      "description": "AIROD Analyst prompt. Provides structured guidance for analyzing outage/incident data leveraging injected database schema.",
+      "filename": "airod_analyst_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "customer_insights_prompt",
+      "log_content": true,
+      "description": "Customer Insights prompt. Tailored instructions to derive customer impact and sentiment summaries from outage datasets.",
+      "filename": "customer_insights_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "entity_extractor_prompt",
+      "log_content": true,
+      "description": "Entity Extractor prompt. Guides extraction of entities (service, offering, region, incident IDs) from free-form natural language input.",
+      "filename": "entity_extractor_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "outage_analyst_prompt",
+      "log_content": true,
+      "description": "Outage Analyst prompt. Focused instructions for performing outage root cause and impact analysis with consistent structure.",
+      "filename": "outage_analyst_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "outage_context",
+      "log_content": true,
+      "description": "Outage context prompt. Supplies shared outage domain context that other prompts/tools can reference.",
+      "filename": "outage_context.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "airo_context",
+      "log_content": true,
+      "description": "AIRO outage analytics context prompt. Supplies shared AIRO outage analytics domain context used by multiple tools/agents.",
+      "filename": "airo_context.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "planner_prompt",
+      "log_content": true,
+      "description": "Planner prompt. Provides step-wise reasoning and planning template to decompose user asks into tool/resource usage.",
+      "filename": "planner_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "summary_formatter_prompt",
+      "log_content": true,
+      "description": "Summary Formatter prompt. Supplies formatting instructions to convert raw analytic output into concise human-readable summaries.",
+      "filename": "summary_formatter_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "unified_visualization_prompt",
+      "log_content": true,
+      "description": "Unified Visualization prompt. Directs generation of a structured visualization specification (tables/charts) from analysis context.",
+      "filename": "unified_visualization_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "sql_query_prompt",
+      "log_content": true,
+      "description": "SQL Query Agent prompt. Provides instructions and context for generating safe, read-only SQL queries against the outage analytics schema.",
+      "filename": "sql_query_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "auto_outage_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — Outage domain SQL analyst. Generates T-SQL queries for outage/incident analysis (severity, TTM, CritSit, RCA, communications).",
+      "filename": "auto_outage_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "auto_airo_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — AIRO/AIROD domain SQL analyst. Generates T-SQL queries for AIRO impact metrics at offering, region, and customer granularity.",
+      "filename": "auto_airo_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "auto_customer_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — Customer insights domain SQL analyst. Generates T-SQL queries for customer-level CritSit, AIRO, QEI, and communication gap analysis.",
+      "filename": "auto_customer_prompt.txt",
+      "inject_schema": true
+    },
+    {
+      "name": "auto_entity_extractor_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — Entity extraction analyst. Extracts and normalizes entities (offerings, regions, services, customers) from user text.",
+      "filename": "auto_entity_extractor_prompt.txt",
+      "inject_schema": false
+    },
+    {
+      "name": "auto_summary_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — Summary formatter. Synthesizes multi-domain analysis results into a polished consolidated narrative.",
+      "filename": "auto_summary_prompt.txt",
+      "inject_schema": false
+    },
+    {
+      "name": "auto_visualization_prompt",
+      "log_content": true,
+      "description": "Autonomous Agent — Visualization analyst. Selects high-value visuals from datasets and emits Streamlit code.",
+      "filename": "auto_visualization_prompt.txt",
+      "inject_schema": false
+    }
+  ]
+}

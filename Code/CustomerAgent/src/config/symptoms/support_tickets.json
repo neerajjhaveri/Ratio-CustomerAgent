@@ -1,0 +1,76 @@
+{
+  "templates": [
+    {
+      "id": "SYM-SUP-001",
+      "name": "Support Case Filed",
+      "signal_sources": ["SIG-TYPE-2"],
+      "weight": 1,
+      "template": "Support case '{case_number}' (Severity {severity}) filed by '{customer_name}' for '{support_product_name}' on subscription '{azure_subscription_id}': '{title}'. Created: {created_date_time}. State: {state}.",
+      "extracted_when": "A support case exists in the dataset for the relevant time window, regardless of severity or escalation status.",
+      "fields": {
+        "from_data": ["case_number", "title", "state", "is_crit_sit", "support_product_name", "resource_uri", "created_date_time", "is_escalated", "initial_severity", "severity", "azure_subscription_id", "customer_tpid", "customer_name"]
+      },
+      "filters": {
+        "case_exists": true
+      }
+    },
+    {
+      "id": "SYM-SUP-002",
+      "name": "Critical Situation (CritSit)",
+      "signal_sources": ["SIG-TYPE-2"],
+      "weight": 3,
+      "template": "Support case '{case_number}' (Severity {severity}) for '{support_product_name}' is flagged as CritSit by '{customer_name}': '{title}'. Resource: {resource_uri}.",
+      "extracted_when": "The support case has IsCritSit set to True, indicating a critical situation escalation requiring urgent attention.",
+      "fields": {
+        "from_data": ["case_number", "title", "state", "is_crit_sit", "support_product_name", "resource_uri", "created_date_time", "severity", "azure_subscription_id", "customer_tpid", "customer_name"]
+      },
+      "filters": {
+        "is_crit_sit": true
+      }
+    },
+    {
+      "id": "SYM-SUP-003",
+      "name": "Escalated Support Case",
+      "signal_sources": ["SIG-TYPE-2"],
+      "weight": 2,
+      "template": "Support case '{case_number}' for '{support_product_name}' was escalated (initial severity {initial_severity} -> current severity {severity}): '{title}'. Resource: {resource_uri}.",
+      "extracted_when": "The support case has IsEscalated set to True or the current Severity is higher (closer to A) than the InitialSeverity, indicating the issue worsened after filing.",
+      "fields": {
+        "from_data": ["case_number", "title", "state", "support_product_name", "resource_uri", "created_date_time", "is_escalated", "initial_severity", "severity", "azure_subscription_id", "customer_tpid", "customer_name"]
+      },
+      "filters": {
+        "is_escalated_or_severity_increased": true
+      }
+    },
+    {
+      "id": "SYM-SUP-004",
+      "name": "Multi-Case Same Product",
+      "signal_sources": ["SIG-TYPE-2"],
+      "weight": 2,
+      "template": "{case_count} support cases filed for '{support_product_name}' across subscriptions for customer '{customer_name}'. Cases: {case_numbers}. This pattern suggests a systemic product issue rather than an isolated incident.",
+      "extracted_when": "Multiple support cases exist for the same SupportProductName within the time window, indicating a recurring or widespread product issue.",
+      "fields": {
+        "from_data": ["case_number", "title", "support_product_name", "created_date_time", "severity", "azure_subscription_id", "customer_tpid", "customer_name"],
+        "llm_derived": ["case_count", "case_numbers"]
+      },
+      "filters": {
+        "min_case_count_same_product": 2
+      }
+    },
+    {
+      "id": "SYM-SUP-005",
+      "name": "Multi-Customer Support Requests",
+      "signal_sources": ["SIG-TYPE-2"],
+      "weight": 3,
+      "template": "{customer_count} distinct customers have filed support cases for '{support_product_name}' in the last 4 hours: {customer_list}. Total cases: {total_case_count}. Max severity: {max_severity}. This cross-customer pattern indicates a widespread service problem rather than a customer-specific issue.",
+      "extracted_when": "Support cases from multiple distinct Customer_CloudCustomerName values exist for the same SupportProductName within the time window, indicating that the issue is not isolated to a single customer.",
+      "fields": {
+        "from_data": ["case_number", "title", "support_product_name", "created_date_time", "severity", "azure_subscription_id", "customer_name"],
+        "llm_derived": ["customer_count", "customer_list", "total_case_count", "max_severity"]
+      },
+      "filters": {
+        "min_distinct_customers": 2
+      }
+    }
+  ]
+}

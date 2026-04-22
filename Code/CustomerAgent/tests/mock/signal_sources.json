@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "sources": [
+    {
+      "type": "kusto",
+      "tool_name": "collect_impacted_resource_customer_tool",
+      "params": {
+        "customer_name": "BlackRock, Inc",
+        "service_tree_id": "49c39e84-285c-45e1-9008-ac6b217161e2",
+        "lookback": "4h"
+      },
+      "field_mappings": {
+        "service": "OwningServiceName",
+        "count": "SRCount",
+        "timestamp": "CreateDate"
+      },
+      "source_type": "kusto",
+      "signal_type": "sr_volume_spike"
+    },
+    {
+      "type": "kusto",
+      "tool_name": "collect_incident_details_tool",
+      "params": {
+        "customer_name": "BlackRock, Inc",
+        "lookback": "4h"
+      },
+      "field_mappings": {
+        "outage_id": "OutageId",
+        "service": "ServiceName",
+        "severity": "Severity",
+        "timestamp": "ImpactStartTime"
+      },
+      "source_type": "kusto",
+      "signal_type": "outage_declared"
+    }
+  ]
+}

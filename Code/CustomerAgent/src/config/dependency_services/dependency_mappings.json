@@ -1,0 +1,9 @@
+{
+  "description": "Maps primary service_tree_id to the dependency service keys it depends on. Each key references a file in dependency_services/<key>.json. Multiple primary services can share the same dependency — definitions live in one place.",
+  "mappings": {
+    "49c39e84-285c-45e1-9008-ac6b217161e2": {
+      "name": "ScaleSet Platform and Solution",
+      "dependencies": ["azure_allocator", "azure_capacity_infrastructure_service", "regional_network_manager", "xstore"]
+    }
+  }
+}

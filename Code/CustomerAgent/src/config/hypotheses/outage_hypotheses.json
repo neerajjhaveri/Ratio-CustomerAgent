@@ -1,0 +1,104 @@
+{
+  "hypotheses": [
+    {
+      "id": "HYP-OUT-001",
+      "name": "Outage Directly Impacting Customer",
+      "statement": "Incident '{incident_id}' (Severity {severity}) by '{owning_tenant_name}' is directly causing SLI degradation for the customer — the incident's impact timeline aligns with observed SLI breaches.",
+      "category": "outage",
+      "expected_symptoms": [
+        "SYM-OUT-001",
+        "SYM-OUT-002",
+        "SYM-OUT-003",
+        "SYM-SLI-001",
+        "SYM-SLI-005",
+        "SYM-SUP-005"
+      ],
+      "min_symptoms_for_match": 3,
+      "evidence_needed": [
+        "ER-OUT-001",
+        "ER-OUT-002",
+        "ER-SLI-001",
+        "ER-SLI-002",
+        "ER-TKT-001",
+        "ER-TKT-002"
+      ],
+      "supporting_signals": "Strongest when SYM-OUT-002 (confirmed outage, IsOutage=true) and SYM-OUT-003 (time overlap within 60 min) co-occur with SLI breach symptoms. SYM-SUP-005 (multiple customers filing tickets) strongly reinforces platform-wide impact. High severity and active status increase confidence."
+    },
+    {
+      "id": "HYP-OUT-002",
+      "name": "Outage Compounding Pre-Existing Issue",
+      "statement": "Incident '{incident_id}' by '{owning_tenant_name}' is compounding a pre-existing issue — the customer had SLI degradation before the incident's ImpactStartDate ({impact_start_date}).",
+      "category": "outage",
+      "expected_symptoms": [
+        "SYM-OUT-001",
+        "SYM-OUT-003",
+        "SYM-SLI-001",
+        "SYM-SLI-002",
+        "SYM-SLI-003"
+      ],
+      "min_symptoms_for_match": 2,
+      "evidence_needed": [
+        "ER-OUT-001",
+        "ER-OUT-002",
+        "ER-SLI-001"
+      ],
+      "supporting_signals": "Strongest when SYM-SLI-001/SYM-SLI-002 show EarliestImpactStart before the incident's ImpactStartDate, and SYM-SLI-003 (multi-SLI breach) suggests broader degradation predating the outage."
+    },
+    {
+      "id": "HYP-OUT-003",
+      "name": "Widespread Outage with Child Incidents",
+      "statement": "Incident '{incident_id}' (Severity {severity}) by '{owning_tenant_name}' has {child_count} child incidents, indicating a widespread platform issue affecting multiple teams or services.",
+      "category": "outage",
+      "expected_symptoms": [
+        "SYM-OUT-001",
+        "SYM-OUT-002",
+        "SYM-SLI-004",
+        "SYM-SLI-005",
+        "SYM-SUP-005"
+      ],
+      "min_symptoms_for_match": 3,
+      "evidence_needed": [
+        "ER-OUT-001",
+        "ER-OUT-002",
+        "ER-SLI-001",
+        "ER-DEP-002",
+        "ER-TKT-002"
+      ],
+      "supporting_signals": "Strongest when SYM-OUT-002 (confirmed outage) co-occurs with high ChildCount and SYM-SLI-004 (cross-subscription) or SYM-SLI-005 (cross-region) patterns, confirming broad blast radius."
+    },
+    {
+      "id": "HYP-OUT-004",
+      "name": "Incident Correlated with Customer Support Case",
+      "statement": "Incident '{incident_id}' by '{owning_tenant_name}' is linked to support ticket '{support_ticket_id}', directly correlating a platform incident with a customer complaint — the incident is the likely root cause of the reported issue.",
+      "category": "outage",
+      "expected_symptoms": [
+        "SYM-OUT-001",
+        "SYM-OUT-004",
+        "SYM-SUP-001",
+        "SYM-SUP-002"
+      ],
+      "min_symptoms_for_match": 2,
+      "evidence_needed": [
+        "ER-OUT-001",
+        "ER-TKT-001",
+        "ER-SLI-001"
+      ],
+      "supporting_signals": "Strongest when SYM-OUT-004 (customer-correlated incident with SupportTicketId) co-occurs with SYM-SUP-001/SYM-SUP-002 (support case filed or CritSit), confirming the customer actively reported the issue."
+    },
+    {
+      "id": "HYP-OUT-005",
+      "name": "Incident Not Affecting Customer (False Positive)",
+      "statement": "Incident '{incident_id}' (Severity {severity}, Status: {status}) by '{owning_tenant_name}' is NOT impacting the customer — SLI data shows no degradation correlated with the incident timeline.",
+      "category": "outage",
+      "expected_symptoms": [
+        "SYM-OUT-001"
+      ],
+      "min_symptoms_for_match": 1,
+      "evidence_needed": [
+        "ER-OUT-001",
+        "ER-SLI-001"
+      ],
+      "supporting_signals": "Strongest when SYM-OUT-001 exists (incident detected) but SYM-OUT-002 (confirmed outage) is absent, SYM-OUT-003 (time overlap) is absent, and no SLI breach symptoms fire for the customer's subscriptions."
+    }
+  ]
+}

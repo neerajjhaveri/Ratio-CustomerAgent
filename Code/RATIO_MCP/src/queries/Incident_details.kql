@@ -1,0 +1,7 @@
+declare query_parameters (lookbackHours:timespan = 4h, owningTenantNames:string = "[]");
+let _tenantNames = todynamic(owningTenantNames);
+cluster('icmanalytics.centralus').database('IcmDataWarehouse').IncidentsSnapshotV2()
+| project IncidentId, Severity, IsOutage, Title, Status, CreateDate, ImpactStartDate, ChildCount,  
+OwningTenantName, SupportTicketId
+| where ImpactStartDate >= ago(lookbackHours) and (Severity <= 2 or IsOutage == true)
+| where array_length(_tenantNames) == 0 or OwningTenantName in (_tenantNames)

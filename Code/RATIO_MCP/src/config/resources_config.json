@@ -1,0 +1,44 @@
+{
+  "resources": [
+    {
+      "uri": "resource://database-schema",
+      "name": "database_schema",
+      "log_content": true,
+      "title": "Database Schema",
+      "description": "Database schema metadata for ratio insights platform",
+      "mime_type": "text/plain",
+      "filename": "DatabaseSchema.txt",
+      "type": "text"
+    },
+    {
+      "uri": "resource://offering-synonyms",
+      "name": "offering_synonyms",
+      "log_content": true,
+      "title": "Offering Synonyms",
+      "description": "Lookup table of offering synonyms for entity normalization",
+      "mime_type": "application/json",
+      "filename": "OfferingSynonyms.json",
+      "type": "json"
+    },
+    {
+      "uri": "resource://region-synonyms",
+      "name": "region_synonyms",
+      "log_content": true,
+      "title": "Region Synonyms",
+      "description": "Lookup table mapping canonical region names to known synonyms",
+      "mime_type": "application/json",
+      "filename": "RegionSynonyms.json",
+      "type": "json"
+    },
+    {
+      "uri": "resource://servicename-synonyms",
+      "name": "servicename_synonyms",
+      "log_content": true,
+      "title": "Service Name Synonyms",
+      "description": "Lookup table mapping service names to their synonyms",
+      "mime_type": "application/json",
+      "filename": "ServiceNameSynonyms.json",
+      "type": "json"
+    }
+  ]
+}

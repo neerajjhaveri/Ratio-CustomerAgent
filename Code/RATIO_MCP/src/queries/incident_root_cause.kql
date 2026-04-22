@@ -1,0 +1,5 @@
+declare query_parameters (IncidentId:long);
+cluster('bdsair.centralus.kusto.windows.net').database('Airogreen').external_table('RootCauseContributingFactor_External')
+| where incident_id == IncidentId
+| summarize arg_max(rc_index, *) by incident_id
+| project incident_id, business_impact, technical_details, detection, change_impact, primary_cause, level_1, level_2, level_3, level_4, confidence_score, contributing_factors

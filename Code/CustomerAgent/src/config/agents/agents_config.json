@@ -1,0 +1,284 @@
+{
+  "agents": [
+    {
+      "name": "orchestrator",
+      "description": "Routes user queries to appropriate specialist agents and decides turn order",
+      "prompt_file": "maf_orchestrator_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": false,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "entity_extractor",
+      "description": "Extracts and normalizes entities (offerings, regions, services, customers) from the user query using synonym lookup",
+      "prompt_file": "maf_entity_extractor_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "normalize_entity_mapping_tool"
+      ],
+      "evaluate": false,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "outage_analyst",
+      "description": "Generates and executes T-SQL for outage/incident analysis: severity, TTM, QCO, CritSit distributions, RCA",
+      "prompt_file": "maf_outage_analyst_prompt.txt",
+      "knowledge": [
+        "sql_standards.md"
+      ],
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "run_tsql_query_tool",
+        "collect_root_cause_tool"
+      ],
+      "evaluate": true,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "airo_analyst",
+      "description": "Generates and executes T-SQL for AIRO/AIROD impact metrics at fleet, region, and customer granularity",
+      "prompt_file": "maf_airo_analyst_prompt.txt",
+      "knowledge": [
+        "sql_standards.md"
+      ],
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "run_tsql_query_tool"
+      ],
+      "evaluate": true,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "customer_insights",
+      "description": "Customer impact analysis: CritSits per customer, AIRO by customer, QEI/QEIS lists, communication gaps",
+      "prompt_file": "maf_customer_insights_prompt.txt",
+      "knowledge": [
+        "sql_standards.md"
+      ],
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "run_tsql_query_tool"
+      ],
+      "evaluate": true,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "visualizer",
+      "description": "Generates ready-to-run Streamlit visualization code from analytical datasets produced by other agents",
+      "prompt_file": "maf_visualizer_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "summarizer",
+      "description": "Consolidates all analysis results into a final structured response with headline, summary bullets, and datasets",
+      "prompt_file": "maf_summarizer_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": true,
+      "log_input": true,
+      "log_output": true,
+      "prompt_injection": false
+    },
+    {
+      "name": "analyst_coordinator",
+      "description": "Invokes outage_analyst, airo_analyst, and customer_insights agents in parallel when the user explicitly requests all analysts to run concurrently",
+      "prompt_file": "maf_analyst_coordinator_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "agent_tools",
+      "mcp_tools": [],
+      "sub_agents": [
+        "outage_analyst",
+        "airo_analyst",
+        "customer_insights"
+      ],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "investigation_orchestrator",
+      "description": "Routes investigation turns through phases: triage \u00e2\u2020\u2019 hypothesizing \u00e2\u2020\u2019 planning \u00e2\u2020\u2019 collecting \u00e2\u2020\u2019 reasoning \u00e2\u2020\u2019 acting \u00e2\u2020\u2019 notifying. Reads parsed signals and decides the next agent.",
+      "prompt_file": "investigation_orchestrator_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "triage_agent",
+      "description": "Classifies activated signals, extracts symptoms from config templates, and determines investigation category (CAT-HEALTH-DEGRADE, CAT-OUTAGE-IMPACT, CAT-PROACTIVE-RISK, CAT-SUPPORT-ESCALATION)",
+      "prompt_file": "investigation_triage_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "collect_impacted_resource_customer_tool"
+      ],
+      "evaluate": false,
+      "prompt_injection": true,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "sli_collector",
+      "description": "Collects and synthesizes SLI breach data (customer-specific, multi-customer, load patterns) for evidence evaluation",
+      "prompt_file": "investigation_sli_collector_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "collect_impacted_resource_customer_tool",
+        "collect_impacted_resource_multicustomer_tool"
+      ],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "incident_collector",
+      "description": "Collects and synthesizes incident/outage data and root cause analysis for evidence evaluation",
+      "prompt_file": "investigation_incident_collector_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "collect_incident_details_tool"      
+      ],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "support_collector",
+      "description": "Collects and synthesizes support ticket data (customer-specific and cross-customer patterns) for evidence evaluation",
+      "prompt_file": "investigation_support_collector_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "filtered",
+      "mcp_tools": [
+        "collect_support_request_tool"
+      ],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "evidence_planner",
+      "description": "Plans and executes evidence collection for the current hypothesis by dispatching collector sub-agents in parallel, then consolidates their synthesized findings",
+      "prompt_file": "investigation_evidence_planner_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "agent_tools",
+      "mcp_tools": [],
+      "sub_agents": [
+        "sli_collector",
+        "incident_collector",
+        "support_collector"
+      ],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "reasoner",
+      "description": "Evaluates collected evidence against the current hypothesis to determine CONFIRMED, CONTRIBUTING, REFUTED, or needs_more_evidence. Pure reasoning \u00e2\u20ac\u201d no tools.",
+      "prompt_file": "investigation_reasoner_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    },
+    {
+      "name": "action_planner",
+      "description": "Selects and prioritizes remediation actions from the action catalog for confirmed or contributing hypotheses. Pure reasoning \u00e2\u20ac\u201d no tools, no execution.",
+      "prompt_file": "investigation_action_planner_prompt.txt",
+      "model": "gpt-4o",
+      "temperature": 1.0,
+      "tool_mode": "none",
+      "mcp_tools": [],
+      "evaluate": false,
+      "prompt_injection": false,
+      "log_input": true,
+      "log_output": true
+    }
+  ],
+  "workflow": {
+    "type": "group_chat",
+    "orchestrator_agent": "orchestrator",
+    "participants": [
+      "entity_extractor",
+      "outage_analyst",
+      "airo_analyst",
+      "customer_insights",
+      "analyst_coordinator",
+      "visualizer",
+      "summarizer"
+    ],
+    "max_turns": 15,
+    "intermediate_outputs": true,
+    "termination_keyword": "WORKFLOW_COMPLETE"
+  },
+  "investigation_workflow": {
+    "type": "group_chat",
+    "orchestrator_agent": "investigation_orchestrator",
+    "participants": [
+      "triage_agent",
+      "evidence_planner",
+      "reasoner",
+      "action_planner"
+    ],
+    "max_turns": 30,
+    "max_evidence_cycles": 2,
+    "intermediate_outputs": true,
+    "termination_signal": "investigation_resolved",
+    "scoring": {
+      "strength_aggregation": "avg",
+      "default_weight": 1,
+      "min_score_threshold": 0.0
+    }
+  }
+}

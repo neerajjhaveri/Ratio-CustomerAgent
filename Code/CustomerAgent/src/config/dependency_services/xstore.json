@@ -1,0 +1,28 @@
+{
+  "name": "Xstore",
+  "service_tree_id": "734379f9-2d2c-48d4-a52a-5c509f699de4",
+  "category": "storage_backend",
+  "impact_description": "Provides storage backend for managed disks. Degradation causes disk I/O errors, OS disk unresponsiveness, and VM boot failures.",
+  "sli_symptoms": [
+    {
+      "sliId": "Disk.Direct Drive Disk failure SLO - Single Disk.Signal",
+      "symptoms": ["Disk I/O errors on VM", "VM OS or data disk becomes unresponsive"]
+    },
+    {
+      "sliId": "XStore Success Rate.Success Rate.Signal",
+      "symptoms": ["Disk I/O errors on VM", "VM OS or data disk becomes unresponsive"]
+    },
+    {
+      "sliId": "Disk.Disk failure SLO - Single Disk.Signal",
+      "symptoms": ["Disk I/O errors on VM", "VM OS or data disk becomes unresponsive"]
+    },
+    {
+      "sliId": "XStore Success Rate.Container Success Rate.Signal",
+      "symptoms": ["VM OS disk becomes unresponsive", "VM fails to boot or crashes"]
+    },
+    {
+      "sliId": "Disk.XStore DIsk Availablity SLO - Data Center.Signal",
+      "symptoms": ["Disk I/O errors on VM", "VM OS or data disk becomes unresponsive", "VM fails to boot or crashes"]
+    }
+  ]
+}

@@ -1,0 +1,366 @@
+{
+    "RegionSynonyms": {
+    "usnatwest": [
+      "us natwest",
+      "usnat west"
+    ],
+    "ussecwest": [
+      "us secwest",
+      "ussec west"
+    ],
+    "uksouth": [
+      "uk south"
+    ],
+    "japanwest": [
+      "japan west"
+    ],
+    "northeurope": ["north europe"],
+    "usseccentral": [
+      "us seccentral",
+      "ussec central"
+    ],
+    "eastus2euap": [
+      "eastus 2 euap",
+      "eastus-2-euap"
+    ],
+    "chinaeast2": [
+      "china east 2",
+      "china east2",
+      "china-east-2",
+      "chinaeast 2",
+      "chinaeast-2"
+    ],
+    "usdodeast": [
+      "us dodeast",
+      "usdod east"
+    ],
+    "usgoviowa": [
+      "us goviowa"
+    ],
+    "usdodsouthcentral": [
+      "us dodsouthcentral",
+      "usdod south central"
+    ],
+    "uaecentral": [
+      "uae central"
+    ],
+    "norwaywest": [
+      "norway west"
+    ],
+    "swedensouth": [
+      "sweden south"
+    ],
+    "indonesiacentral": [
+      "indonesia central"
+    ],
+    "koreasouth2": [
+      "korea south 2",
+      "korea south2",
+      "korea-south-2",
+      "koreasouth 2",
+      "koreasouth-2"
+    ],
+    "southcentralus": [
+      "south centralus"
+    ],
+    "newzealandnorth": [
+      "newzealand north"
+    ],
+    "austriaeast": [
+      "austria east"
+    ],
+    "malaysiawest": [
+      "malaysia west"
+    ],
+    "jioindiacentral": [
+      "jioindia central"
+    ],
+    "eastusslv": [],
+    "deloscloudgermanynorth": [
+      "deloscloudgermany north"
+    ],
+    "israelnorthwest": [
+      "israel north west"
+    ],
+    "jioindiawest": [
+      "jioindia west"
+    ],
+    "israelcentral": [
+      "israel central"
+    ],
+    "indiasouthcentral": [
+      "india south central"
+    ],
+    "australiacentral": [
+      "australia central"
+    ],
+    "switzerlandwest": [
+      "switzerland west"
+    ],
+    "canadaeast": [
+      "canada east"
+    ],
+    "eastus2": [
+      "east us2",
+      "eastus 2",
+      "eastus-2"
+    ],
+    "uknorth": [
+      "uk north"
+    ],
+    "eastusstg": [],
+    "chinanorth2": [
+      "china north 2",
+      "china north2",
+      "china-north-2",
+      "chinanorth 2",
+      "chinanorth-2"
+    ],
+    "eastasia": ["east asia", "eastasia", "east-asia"],
+    "centralus": ["central us", "centralus", "central-us"],
+    "usgovvirginia": [
+      "us govvirginia"
+    ],
+    "koreacentral": [
+      "korea central"
+    ],
+    "francesouth": [
+      "france south"
+    ],
+    "swedencentral": [
+      "sweden central"
+    ],
+    "usgovwyoming": [
+      "us govwyoming"
+    ],
+    "francecentral": [
+      "france central"
+    ],
+    "ussecwestcentral": [
+      "us secwestcentral",
+      "ussec west central"
+    ],
+    "germanynorth": [
+      "germany north"
+    ],
+    "westus": ["west us", "west-us"],
+    "northcentralus": [
+      "north centralus"
+    ],
+    "mexicocentral": [
+      "mexico central"
+    ],
+    "australiasoutheast": [
+      "australia south east"
+    ],
+    "southcentralusstg": [
+      "south centralusstg"
+    ],
+    "polandcentral": [
+      "poland central"
+    ],
+    "apacsoutheast2": [
+      "apac south east2",
+      "apacsoutheast 2",
+      "apacsoutheast-2",
+      "south east 2",
+      "south-east-2"
+    ],
+    "westus2": [
+      "west us2",
+      "westus 2",
+      "westus-2"
+    ],
+    "ukwest": [
+      "uk west"
+    ],
+    "westeurope": [],
+    "australiacentral2": [
+      "australia central 2",
+      "australia central2",
+      "australia-central-2",
+      "australiacentral 2",
+      "australiacentral-2"
+    ],
+    "usdodcentral": [
+      "us dodcentral",
+      "usdod central"
+    ],
+    "usgovtexas": [
+      "us govtexas"
+    ],
+    "usgovarizona": [
+      "us govarizona"
+    ],
+    "belgiumcentral": [
+      "belgium central"
+    ],
+    "germanycentral": [
+      "germany central"
+    ],
+    "centraluseuap": [],
+    "chinaeast": [
+      "china east"
+    ],
+    "chilecentral": [
+      "chile central"
+    ],
+    "chinaeast3": [
+      "china east 3",
+      "china east3",
+      "china-east-3",
+      "chinaeast 3",
+      "chinaeast-3"
+    ],
+    "germanywestcentral": [
+      "germany west central"
+    ],
+    "singaporegov": [],
+    "chinanorth10": [
+      "china north 10",
+      "china north10",
+      "china-north-10",
+      "chinanorth 10",
+      "chinanorth-10"
+    ],
+    "italynorth": [
+      "italy north"
+    ],
+    "brazilnortheast": [
+      "brazil north east"
+    ],
+    "taiwannorth": [
+      "taiwan north"
+    ],
+    "taiwannorthwest": [
+      "taiwan north west"
+    ],
+    "westcentralus": [
+      "west centralus",
+      "west-centralus"
+    ],
+    "bleufrancesouth": [
+      "bleufrance south"
+    ],
+    "westindia": [],
+    "denmarkeast": [
+      "denmark east"
+    ],
+    "koreasouth": [
+      "korea south"
+    ],
+    "australiaeast": [
+      "australia east"
+    ],
+    "southafricanorth": [
+      "southafrica north"
+    ],
+    "germanynortheast": [
+      "germany north east"
+    ],
+    "ocave": [],
+    "southeastasia": [
+      "south eastasia"
+    ],
+    "southafricawest": [
+      "southafrica west"
+    ],
+    "brazilsouth": [
+      "brazil south",
+      "brazil-south"
+    ],
+    "canadacentral": [
+      "canada central",
+      "canada-central",
+      "central canada"
+    ],
+    "uksouth2": [
+      "south 2",
+      "south-2",
+      "uk south2",
+      "uksouth 2",
+      "uksouth-2"
+    ],
+    "bleufrancecentral": [
+      "bleufrance central"
+    ],
+    "westus3": [
+      "west us3",
+      "west-us3",
+      "westus-3"
+    ],
+    "usdodsouthwest": [
+      "us dodsouthwest",
+      "usdod south west"
+    ],
+    "chinanorth3": [
+      "china north 3",
+      "china north3",
+      "china-north-3",
+      "chinanorth 3",
+      "chinanorth-3"
+    ],
+    "centralindia": ["india central", "india-central", "central india"],
+    "southindia": ["south india", "south-india"],
+    "eastus": ["east us", "eastus", "east-us"],
+    "malaysiasouth": [
+      "malaysia south",
+      "malaysia-south",
+      "south malaysia"
+    ],
+    "northeurope2": [
+      "north 2",
+      "north-2",
+      "northeurope 2",
+      "northeurope-2"
+    ],
+    "brazilsoutheast": [
+      "brazil south east"
+    ],
+    "norwayeast": [
+      "norway east"
+    ],
+    "qatarcentral": [
+      "qatar central"
+    ],
+    "easteurope": [],
+    "switzerlandnorth": [
+      "switzerland north"
+    ],
+    "usdodwestcentral": [
+      "us dodwestcentral",
+      "usdod west central"
+    ],
+    "arlem": [],
+    "uaenorth": [
+      "uae north"
+    ],
+    "japaneast": [
+      "japan east"
+    ],
+    "chilenorthcentral": [
+      "chile north central"
+    ],
+    "usseceast": [
+      "us seceast",
+      "ussec east"
+    ],
+    "usnateast": [
+      "us nateast",
+      "usnat east"
+    ],
+    "spaincentral": [
+      "spain central"
+    ],
+    "finlandcentral": [
+      "finland central"
+    ],
+    "deloscloudgermanycentral": [
+      "deloscloudgermany central"
+    ],
+    "chinanorth": [
+      "china north"
+    ],
+    "global": []
+  }
+}

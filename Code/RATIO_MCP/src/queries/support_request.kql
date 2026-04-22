@@ -1,0 +1,8 @@
+declare query_parameters (customerName:string = "", lookbackHours:timespan = 4h, supportProductNames:string = "[]");
+let _productNames = todynamic(supportProductNames);
+cluster('https://supportrptwus3prod.westus3.kusto.windows.net').database('Product360M365').AllCloudsSupportIncidentWithReferenceModelVNext_AllSources 
+| where CreatedDateTime >= ago(lookbackHours)
+| where array_length(_productNames) == 0 or SupportProductName in (_productNames)
+| where isempty(customerName) or Customer_CloudCustomerName contains customerName
+| project CaseNumber = IncidentId, Title, State, IsCritSit, SupportProductName, ResourceUri,
+CreatedDateTime, IsEscalated, InitialSeverity, Severity, AzureSubscriptionId, Customer_CloudCustomerName

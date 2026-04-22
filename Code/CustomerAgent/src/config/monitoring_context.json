@@ -1,0 +1,18 @@
+{
+  "poll_interval_minutes": 10,
+  "max_concurrent_investigations": 5,
+  "lookback_hours": "4h",
+  "targets": [
+    {
+      "customer_name": "BlackRock, Inc",
+      "service_tree_ids": [
+        { 
+          "id": "49c39e84-285c-45e1-9008-ac6b217161e2", 
+          "name": "ScaleSet Platform and Solution", 
+          "support_product_names": ["Azure Virtual Machine - Linux", "Azure Virtual Machine - Windows", "Azure VM-Disk Operations (P360)", "Azure VM insights"], 
+          "owning_tenant_names": ["ScaleSet Platform and Solution",  "WACAP"] 
+        }
+      ]
+    }
+  ]
+}

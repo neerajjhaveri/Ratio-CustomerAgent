@@ -1,0 +1,15 @@
+[project]
+name = "ratio_mcp"
+version = "0.1.0"
+description = "A simple MCP weather server"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.5.0"
+]
+
+# Optional: azure monitor OpenTelemetry exporter for Application Insights
+"azure-monitor-opentelemetry"
+
+[project.optional-dependencies]
+dev = ["debugpy==1.8.8", "pytest==8.3.3"]

@@ -1,0 +1,501 @@
+{
+  "OfferingSynonyms": {
+    "1esdevbox": [],
+    "1espaes": [],
+    "1esresourcemanagement": [],
+    "aadmidtierqueryservice": [],
+    "aadsyncfabric": [],
+    "acropolis": [],
+    "actiongroups": [],
+    "activitylogs&alerts": [
+      "activitylogs alerts",
+      "activitylogs-alerts",
+      "activitylogsandalerts",
+      "activitylogs and alerts"
+    ],
+    "adrs": [],
+    "afdplatform": [],
+    "afoinetworkcloud": [],
+    "aibuilderunstructuredml": [],
+    "aiopshealthplatform": [],
+    "anvil": [],
+    "apimanagement": [
+      "apim"
+    ],
+    "applicationgateway": [
+      "appgw"
+    ],
+    "applicationinsights": [
+      "appi"
+    ],
+    "appservice": ["app service", "app-service"],
+    "appservice\\staticwebapps": [
+      "staticwebapps",
+      "appservice staticwebapps",
+      "appservice-staticwebapps"
+    ],
+    "arcuserexperiences": [],
+    "automation": [],
+    "azdevacquisitionexperience": [],
+    "azdevanalytics": [],
+    "azdevartifacts": [],
+    "azdevazchatops": [],
+    "azdevblobstore": [],
+    "azdevfeeds": [],
+    "azdevmasterpartitioningservice": [],
+    "azdevsharedplatformservices": [],
+    "azdevtestcasemanagement": [],
+    "azdevtoken": [],
+    "azdevuser": [],
+    "azswift": [],
+    "azureactivedirectory": [
+      "activedirectory"
+    ],
+    "azurealertscontrolplane": [
+      "alertscontrolplane"
+    ],
+    "azureanalysisservices": [
+      "analysisservices"
+    ],
+    "azurearcenabledkubernetes": [
+      "arcenabledkubernetes"
+    ],
+    "azureauthzdataplane": [
+      "authzdataplane"
+    ],
+    "azurebastion": [
+      "bastion"
+    ],
+    "azurebatch": [
+      "batch"
+    ],
+    "azurebotservice": [
+      "botservice"
+    ],
+    "azurecertificateservice": [
+      "certificateservice"
+    ],
+    "azurechaosstudio": [
+      "chaosstudio"
+    ],
+    "azurechaosstudioagentservice": [
+      "chaosstudioagentservice"
+    ],
+    "azurecommunicationservices": [
+      "communicationservices"
+    ],
+    "azurecomputeartifacts": [
+      "computeartifacts"
+    ],
+    "azurecontainerapps": [
+      "containerapps"
+    ],
+    "azurecontainerinstances": [
+      "containerinstances"
+    ],
+    "azurecontainernetworking": [
+      "containernetworking"
+    ],
+    "azurecorequalityengineering": [
+      "corequalityengineering"
+    ],
+    "azurecosmosdb": [
+      "cosmosdb"
+    ],
+    "azuredatabaseformariadb": [
+      "databaseformariadb"
+    ],
+    "azuredatabaseformysql": [
+      "databaseformysql"
+    ],
+    "azuredatabaseformysqlflexibleservers": [
+      "databaseformysqlflexibleservers"
+    ],
+    "azuredatabaseforpostgresql": [
+      "databaseforpostgresql"
+    ],
+    "azuredatabaseforpostgresqlflexibleservers": [
+      "databaseforpostgresqlflexibleservers"
+    ],
+    "azuredatabasemigrationservice": [
+      "databasemigrationservice"
+    ],
+    "azuredatabricks": [
+      "databricks",
+      "azure databricks"
+    ],
+    "azuredataexplorer": [
+      "dataexplorer"
+    ],
+    "azuredatamanagerforenergy": [
+      "datamanagerforenergy"
+    ],
+    "azuredeployments": [
+      "deployments"
+    ],
+    "azuredeviceprovisioningservice": [
+      "deviceprovisioningservice"
+    ],
+    "azuredevops": [
+      "devops"
+    ],
+    "azuredevopsserver": [
+      "devopsserver"
+    ],
+    "azuredigitaltwins": [
+      "digitaltwins"
+    ],
+    "azuredirectdrive": [
+      "directdrive"
+    ],
+    "azurednsprivateresolver": [
+      "dnsprivateresolver"
+    ],
+    "azurednspubliczones": [
+      "dnspubliczones"
+    ],
+    "azurefirewall": [
+      "firewall"
+    ],
+    "azurefrontdoor": [
+      "frontdoor"
+    ],
+    "azurehardwaredatacentermanager": [
+      "hardwaredatacentermanager"
+    ],
+    "azurehealthdataservices": [
+      "healthdataservices"
+    ],
+    "azurehostagent": [
+      "hostagent"
+    ],
+    "azureiothub": [
+      "iothub"
+    ],
+    "azurekubernetesservice(aks)": [
+      "aks",
+      "azurekubernetesservice",
+      "kubernetesservice(aks)",
+      "azurekubernetesservice aks",
+      "azurekubernetesservice-aks"
+    ],
+    "azureloadtesting": [
+      "loadtesting"
+    ],
+    "azuremanagedgrafana": [
+      "managedgrafana"
+    ],
+    "azuremaps": [
+      "maps"
+    ],
+    "azuremigrate": [
+      "migrate"
+    ],
+    "azuremonitor": [
+      "monitor"
+    ],
+    "azuremonitorcontrolservice": [
+      "monitorcontrolservice"
+    ],
+    "azuremonitoressentials": [
+      "monitoressentials"
+    ],
+    "azuremonitormetrics": [
+      "monitormetrics"
+    ],
+    "azuremonitorworkspacedataplanefrontdoor": [
+      "monitorworkspacedataplanefrontdoor"
+    ],
+    "azurenetappfiles": [
+      "netappfiles"
+    ],
+    "azureopenaiservice": [
+      "openaiservice"
+    ],
+    "azurepolicy": [
+      "policy"
+    ],
+    "azureportalframework(ibizafx)": [
+      "azureportalframework",
+      "portalframework(ibizafx)",
+      "azureportalframework ibizafx",
+      "azureportalframework-ibizafx"
+    ],
+    "azureportalintelligentexperiences": [
+      "portalintelligentexperiences"
+    ],
+    "azureprivilegedidentitymanagement": [
+      "privilegedidentitymanagement"
+    ],
+    "azureresourcegraph": [
+      "resourcegraph"
+    ],
+    "azureresourcemanager": [
+      "resourcemanager"
+    ],
+    "azuresearch": [
+      "search"
+    ],
+    "azuresentinel": [
+      "sentinel"
+    ],
+    "azureservicemanager": [
+      "servicemanager"
+    ],
+    "azuresignalrservice": [
+      "signalrservice"
+    ],
+    "azurespheresecuritysvcgen1": [
+      "spheresecuritysvcgen1"
+    ],
+    "azurestack": [
+      "stack"
+    ],
+    "azurestackhci": [
+      "stackhci"
+    ],
+    "azuresynapseanalytics": [
+      "synapseanalytics"
+    ],
+    "azuresynapsejobservice": [
+      "synapsejobservice"
+    ],
+    "azuresynapseplatformservice": [
+      "synapseplatformservice"
+    ],
+    "azurethrottlingsolutions": [
+      "throttlingsolutions"
+    ],
+    "backup": [],
+    "billingservice": [],
+    "brain": [],
+    "brainml": [],
+    "buildmediainazure": [],
+    "businessapplicationplatform": [],
+    "cdn": [],
+    "cirrus": [],
+    "cloudbuild": [],
+    "cloudshell": [],
+    "cloudtest": [],
+    "cognitiveserviceformrecognizer": [],
+    "cognitiveservices": [],
+    "cognitiveservicescomputervisionapi": [],
+    "cognitiveservicestextanalyticsapi": [],
+    "computeresourceprovider": [],
+    "connectormanagementservice": [],
+    "containerinsights": [],
+    "containerregistry": [
+      "acr"
+    ],
+    "conversationconductor": [],
+    "copilotstudioplatformextensibility": [],
+    "copilotstudioruntime": [],
+    "coreservicesmicroservicesinfrastructure": [],
+    "cosmicplatform": [],
+    "costmanagement": [],
+    "costmanagementactionableexperiences": [],
+    "cpim": [],
+    "cpimsts": [],
+    "credentialsmanagementux": [],
+    "crmbackgroundtaskservicessync": [],
+    "datafactory": [],
+    "desktopflowsruntimeservice": [],
+    "devcenter": [],
+    "devdivaiservices": [],
+    "devdivdatainfraprocessingdatax": [],
+    "diskresourceprovider": [],
+    "dnsservingplane": [],
+    "dsms": [],
+    "dynamics365dataversesearch": [],
+    "dynamics365filestoreservice": [],
+    "engineeringhub": [],
+    "eventgrid": [],
+    "eventhubs": [
+      "eh"
+    ],
+    "expressroute\\expressroutecircuits": [
+      "er",
+      "expressroute",
+      "expressroutecircuits",
+      "expressroute expressroutecircuits",
+      "expressroute-expressroutecircuits"
+    ],
+    "expressroute\\expressroutegateways": [
+      "er",
+      "expressroute",
+      "expressroutegateways",
+      "expressroute expressroutegateways",
+      "expressroute-expressroutegateways"
+    ],
+    "fabriccontrollerfundamentalservices": [],
+    "fabricnetworkdevices": [],
+    "fabricplatformsharedservices": [],
+    "functions": [],
+    "genevadatatransport": [],
+    "genevadiagnosticspipeline": [],
+    "guestagentvmextensions": [],
+    "hdinsight": [],
+    "hybridresourceprovider": [],
+    "iamusersandtenants": [],
+    "icmincidentmanagementservice": [],
+    "identitydiagnostics": [],
+    "idxreportingandauditinsights": [],
+    "incidentautomation": [],
+    "interflow": [],
+    "iotcentral": [],
+    "jarvis": [],
+    "keyvault": [
+      "kv"
+    ],
+    "loadbalancer": [
+      "lb"
+    ],
+    "loganalytics": [
+      "la-workspace"
+    ],
+    "logicapps": [
+      "la"
+    ],
+    "m365experimentationandconfigurationecs": [],
+    "machinelearningservices": [
+      "ml"
+    ],
+    "managedserviceidentity": [
+      "msi"
+    ],
+    "mdesignaturerelease": [],
+    "mdm": [],
+    "mediaservices": [
+      "ams"
+    ],
+    "microsoftazureportal": [
+      "azureportal"
+    ],
+    "microsoftcopilotforsecurity": [
+      "copilotforsecurity"
+    ],
+    "microsoftentraconnecthealth": [
+      "entraconnecthealth"
+    ],
+    "microsoftgraph": [
+      "microsoftgraph"
+    ],
+    "microsoftinformationprotection": [
+      "informationprotection"
+    ],
+    "microsoftintune": [
+      "intune"
+    ],
+    "mipplatformservices": [],
+    "multi-factorauthentication": [
+      "multifactorauthentication",
+      "multi factorauthentication"
+    ],
+    "networkinfrastructure": [],
+    "networkresourceprovider": [],
+    "networkservicemanager": [],
+    "networkwatcher": [
+      "nw"
+    ],
+    "notificationhubs": [
+      "nh"
+    ],
+    "observabilityingestionservices": [],
+    "observabilitypipelinedeliveryservices": [],
+    "onebranchservices": [],
+    "onedeployazdeployer": [],
+    "onedeploybuilderandstorage": [
+      "stg"
+    ],
+    "onedriveconsumer": [],
+    "onedrivesharepoint": [],
+    "onefleetnode": [],
+    "onepubsub": [],
+    "overlakeengineeringsystem": [],
+    "perforce": [],
+    "pilotfish": [],
+    "plannedmaintenance": [],
+    "plexinfrastructure": [],
+    "policyadministrationservice": [],
+    "powerautomatecopilot": [],
+    "powerautomateportal": [],
+    "powerautomaterp": [],
+    "powerplatformconnectors": [],
+    "programmabilityservices": [],
+    "projectviennaservices": [],
+    "qualitytestservice": [],
+    "rdos": [],
+    "rediscache": [],
+    "redisenterprise": [],
+    "regionalservicemanager": [],
+    "scalesetplatformandsolution": [],
+    "sdnpubsubservice": [],
+    "securityplatform(purview)": [
+      "securityplatform",
+      "securityplatform purview",
+      "securityplatform-purview"
+    ],
+    "selfservicegroupmanagement": [],
+    "sentinelus": [],
+    "servicebus": [
+        "service bus"
+    ],
+    "servicefabric": [
+      "service fabric"
+    ],
+    "servicemap": [],
+    "siterecovery": [],
+    "skyperegistrar": [],
+    "sourcedepot": [],
+    "sparesinventory": [],
+    "spartandataplatformmanagement": [],
+    "speechservices": [],
+    "sqlbackuprestore": [],
+    "sqlblue": [],
+    "sqlconnectivity": [],
+    "sqlcontrolplane": [],
+    "sqldatabase": [],
+    "sqlmanagedinstance": [
+      "sqlmi"
+    ],
+    "sqlsecurity": [],
+    "sqlstorageengine": [
+      "stg"
+    ],
+    "srp": [],
+    "storage": [
+      "storageaccount",
+      "Xstore"
+    ],
+    "streamanalytics": [
+      "asa"
+    ],
+    "sxgmsaascaseservice": [],
+    "teamsauthservice": [],
+    "teamsverticalseasyapprovals": [],
+    "terrapin": [],
+    "translator": [],
+    "tridentdwsqllakeplatform": [],
+    "trustedlaunch": [],
+    "tssesrpfabricandplatformservices": [],
+    "tsspkiesrp": [],
+    "universalstorepurchase": [],
+    "usxthreatintelligence": [],
+    "videoindexer": [],
+    "virtualmachines": [
+      "vm"
+    ],
+    "virtualnetwork": [
+      "vnet"
+    ],
+    "vpn": [],
+    "watm": [],
+    "webdefenseservice": [
+      "waf"
+    ],
+    "windowsvirtualdesktop": [
+      "wvd"
+    ],
+    "xinvestigator": []
+  }
+}

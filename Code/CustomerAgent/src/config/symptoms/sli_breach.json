@@ -1,0 +1,112 @@
+{
+  "templates": [
+    {
+      "id": "SYM-SLI-001",
+      "name": "SLI Impact Detected for Customer Resources",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 1,
+      "template": "SLI '{slo_sli_id}' has {impacted_resources} impacted resources under subscription '{subscription_id}' in region '{region}' for customer '{customer_name}'. Impact window: {earliest_impact_start} – {latest_impact_end} ({total_impact_duration_min} min). Avg value: {avg_value_across_windows}, Min value: {min_value_across_windows}.",
+      "extracted_when": "SLI monitoring detects one or more impacted resources for a specific SLI in a subscription and region.",
+      "fields": {
+        "from_data": ["customer_name", "subscription_id", "region", "slo_sli_id", "impacted_resources", "total_impact_duration_min", "earliest_impact_start", "latest_impact_end", "avg_value_across_windows", "min_value_across_windows"]
+      },
+      "filters": {
+        "min_impacted_resources": 1
+      }
+    },
+    {
+      "id": "SYM-SLI-002",
+      "name": "Severe SLI Degradation for Customer Resources",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 3,
+      "template": "SLI '{slo_sli_id}' under subscription '{subscription_id}' in region '{region}' for customer '{customer_name}' shows severe degradation: avg value {avg_value_across_windows}, min value {min_value_across_windows} (near-zero indicates total failure). {impacted_resources} resources impacted for {total_impact_duration_min} min ({earliest_impact_start} – {latest_impact_end}). Severity: {severity}.",
+      "extracted_when": "The average or minimum SLI value across monitoring windows drops to near-zero levels, indicating severe or total service failure rather than partial degradation.",
+      "fields": {
+        "from_data": ["customer_name", "subscription_id", "region", "slo_sli_id", "impacted_resources", "total_impact_duration_min", "earliest_impact_start", "latest_impact_end", "avg_value_across_windows", "min_value_across_windows"],
+        "llm_derived": ["severity"]
+      },
+      "filters": {
+        "max_min_value": 1.0,
+        "severity_rules": {
+          "CRITICAL": "min_value_across_windows == 0 and avg_value_across_windows < 1.0",
+          "HIGH": "min_value_across_windows == 0 or avg_value_across_windows < 10.0",
+          "WARNING": "avg_value_across_windows < 50.0"
+        }
+      }
+    },
+    {
+      "id": "SYM-SLI-003",
+      "name": "Multiple SLI Breach for Customer Resources",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 2,
+      "template": "Subscription '{subscription_id}' in region '{region}' for customer '{customer_name}' has {sli_count} distinct SLIs breached: {sli_list}. Impact window: {earliest_impact_start} – {latest_impact_end}. Total impacted resources: {total_impacted_resources}.",
+      "extracted_when": "Multiple distinct SLIs (different SLO_SliId values) are breached for the same subscription and region in overlapping time windows, indicating a broader systemic issue rather than an isolated SLI failure.",
+      "fields": {
+        "from_data": ["customer_name", "subscription_id", "region", "slo_sli_id", "impacted_resources", "earliest_impact_start", "latest_impact_end"],
+        "llm_derived": ["sli_count", "sli_list", "total_impacted_resources"]
+      },
+      "filters": {
+        "min_sli_count": 2
+      }
+    },
+    {
+      "id": "SYM-SLI-004",
+      "name": "Cross-Subscription SLI Impact for Customer Resources",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 2,
+      "template": "SLI '{slo_sli_id}' is breached across {subscription_count} subscriptions for customer '{customer_name}': {subscription_list}. Combined: {total_impacted_resources} impacted resources, impact window {earliest_impact_start} – {latest_impact_end}.",
+      "extracted_when": "The same SLI (same SLO_SliId) is breached across multiple subscriptions under the same customer, indicating that the issue is not subscription-specific but likely a platform-level or customer-wide problem.",
+      "fields": {
+        "from_data": ["customer_name", "subscription_id", "region", "slo_sli_id", "impacted_resources", "earliest_impact_start", "latest_impact_end"],
+        "llm_derived": ["subscription_count", "subscription_list", "total_impacted_resources"]
+      },
+      "filters": {
+        "min_subscription_count": 2
+      }
+    },
+    {
+      "id": "SYM-SLI-005",
+      "name": "Cross-Region SLI Impact for Customer Resources",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 3,
+      "template": "SLI '{slo_sli_id}' is breached across {region_count} regions for customer '{customer_name}': {region_list}. Affected subscriptions: {subscription_list}. Combined: {total_impacted_resources} impacted resources, impact window {earliest_impact_start} – {latest_impact_end}. This pattern suggests a widespread platform issue rather than a region-specific or customer-specific problem.",
+      "extracted_when": "The same SLI is breached across multiple distinct regions, indicating a widespread platform issue. Detected by grouping rows by the Region field when there are multiple distinct region values for the same SLI.",
+      "fields": {
+        "from_data": ["customer_name", "subscription_id", "region", "slo_sli_id", "impacted_resources", "earliest_impact_start", "latest_impact_end"],
+        "llm_derived": ["region_count", "region_list", "subscription_list", "total_impacted_resources"]
+      },
+      "filters": {
+        "min_region_count": 2
+      }
+    },
+    {
+      "id": "SYM-SLI-006",
+      "name": "Cross-Customer Regional SLI Impact",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 2,
+      "template": "SLI '{slo_sli_id}' is breached across {impacted_subscriptions} subscriptions (cross-customer) in region '{region}'. {total_impacted_resources} resources impacted over {total_impact_duration_min} min ({earliest_impact_start} – {latest_impact_end}). Avg value: {avg_value_across_windows}. Other customers are experiencing degradation in the same region where the primary customer has resources.",
+      "extracted_when": "The multicustomer SLI query shows the same SLI breached across 3 or more subscriptions (belonging to different customers) in the same region, indicating a regional platform issue that may spill over to the primary customer.",
+      "fields": {
+        "from_data": ["region", "slo_sli_id", "impacted_resources", "impacted_subscriptions", "total_impact_duration_min", "earliest_impact_start", "latest_impact_end", "avg_value_across_windows", "min_value_across_windows"]
+      },
+      "filters": {
+        "min_impacted_subscriptions": 3
+      }
+    },
+    {
+      "id": "SYM-SLI-007",
+      "name": "Cross-Customer Multi-SLI Regional Degradation",
+      "signal_sources": ["SIG-TYPE-1"],
+      "weight": 3,
+      "template": "Region '{region}' has {sli_count} distinct SLIs breached across customers: {sli_list}. {impacted_subscriptions} subscriptions and {total_impacted_resources} resources affected. This broad regional degradation across multiple SLIs indicates a systemic platform issue — primary customer resources in this region face elevated spill-over risk.",
+      "extracted_when": "The multicustomer SLI query shows multiple distinct SLIs breached across customers in the same region, indicating broad regional degradation rather than a single-SLI anomaly.",
+      "fields": {
+        "from_data": ["region", "slo_sli_id", "impacted_resources", "impacted_subscriptions", "total_impact_duration_min", "earliest_impact_start", "latest_impact_end", "avg_value_across_windows"],
+        "llm_derived": ["sli_count", "sli_list", "total_impacted_resources"]
+      },
+      "filters": {
+        "min_sli_count": 2
+      }
+    }
+  ]
+}

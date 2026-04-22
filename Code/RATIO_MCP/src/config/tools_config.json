@@ -1,0 +1,296 @@
+{
+  "tools": [
+    {
+      "name": "run_tsql_query_tool",
+      "type": "tsql",
+      "log_input": true,
+      "log_output": true,
+      "description": "Execute a read-only T-SQL query against the configured Fabric lakehouse.\n\nParameters:\n    query (str): The SELECT statement to execute. Destructive statements (DROP/DELETE/UPDATE/INSERT/ALTER/TRUNCATE) are blocked.\n    max_rows (int, optional): Maximum number of rows to return. Defaults to 100. Use None to return all rows.\n\nReturns:\n    JSON string with shape {\"rows\": [...], \"count\": <int>} or an error payload {\"error\": \"message\"}",
+      "parameters": {
+        "query": {
+          "type": "string",
+          "required": true,
+          "description": "The SELECT statement to execute."
+        },
+        "max_rows": {
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "description": "Maximum number of rows to return. Defaults to 100."
+        }
+      },
+      "blocked_prefixes": ["drop", "delete", "update", "insert", "alter", "truncate"]
+    },
+    {
+      "name": "run_synapse_tsql_query_tool",
+      "type": "tsql",
+      "log_input": true,
+      "log_output": true,
+      "description": "Execute a read-only T-SQL query against the Synapse SQL (serverless) endpoint in workspace syn-ratio-airod-prod.\n\nParameters:\n    query (str): The SELECT statement to execute. Destructive statements (DROP/DELETE/UPDATE/INSERT/ALTER/TRUNCATE) are blocked.\n    max_rows (int, optional): Maximum number of rows to return. Defaults to 100. Use None to return all rows.\n\nReturns:\n    JSON string with shape {\"rows\": [...], \"count\": <int>} or an error payload {\"error\": \"message\"}",
+      "endpoint_env": "SYNAPSE_SQL_ENDPOINT",
+      "database_env": "SYNAPSE_SQL_DATABASE",
+      "parameters": {
+        "query": {
+          "type": "string",
+          "required": true,
+          "description": "The SELECT statement to execute."
+        },
+        "max_rows": {
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "description": "Maximum number of rows to return. Defaults to 100."
+        }
+      },
+      "blocked_prefixes": ["drop", "delete", "update", "insert", "alter", "truncate"]
+    },
+    {
+      "name": "collect_root_cause_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "description": "Collect root-cause level outage data for a given incident identifier.\n\nParameters:\n    incident_id (str | int): Incident id (numeric or string) used to query underlying dataset.\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} on success; {\"error\": \"message\"} on failure.",
+      "cluster_env": "BDSAIR_KUSTO_CLUSTER",
+      "database_env": "BDSAIR_KUSTO_DATABASE",
+      "query_file": "incident_root_cause.kql",
+      "parameters": {
+        "incident_id": {
+          "type": "string",
+          "required": true,
+          "description": "Incident id (numeric or string) used to query underlying dataset."
+        }
+      },
+      "kusto_params": {
+        "IncidentId": {
+          "source": "incident_id",
+          "cast": "int"
+        }
+      }
+    },
+    {
+      "name": "collect_impacted_resource_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "description": "Collect impacted resource entries for a service tree id in a UTC time window.\n\nConstraints:\n    * start_time and end_time must be ISO8601 timestamps.\n    * end_time must be >= start_time.\n    * Window size <= 30 days and start not older than 30 days from now.\n\nParameters:\n    service_tree_id (str): Identifier of the service tree node.\n    start_time (str): ISO8601 UTC start timestamp.\n    end_time (str): ISO8601 UTC end timestamp.\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "SLI_KUSTO_CLUSTER",
+      "database_env": "SLI_KUSTO_DATABASE",
+      "query_file": "impacted_resource.kql",
+      "parameters": {
+        "service_tree_id": {
+          "type": "string",
+          "required": true,
+          "description": "Identifier of the service tree node."
+        },
+        "start_time": {
+          "type": "string",
+          "required": true,
+          "description": "ISO8601 UTC start timestamp."
+        },
+        "end_time": {
+          "type": "string",
+          "required": true,
+          "description": "ISO8601 UTC end timestamp."
+        }
+      },
+      "kusto_params": {
+        "serviceTreeId": {
+          "source": "service_tree_id"
+        },
+        "startTime": {
+          "source": "start_time"
+        },
+        "endTime": {
+          "source": "end_time"
+        }
+      },
+      "validation": {
+        "time_range": {
+          "start_param": "start_time",
+          "end_param": "end_time",
+          "max_days": 30,
+          "max_age_days": 30
+        }
+      }
+    },
+    {
+      "name": "normalize_entity_mapping_tool",
+      "type": "plugin",
+      "log_input": true,
+      "log_output": true,
+      "description": "Normalize entity mapping fields (ServiceName, Offering, Region) using synonym datasets.\n\nParameters:\n    entity_mapping (dict): Input mapping containing service/offering/region fields or variants.\n    user_ask (str): Original user question/context to support model-based normalization heuristics.\n\nReturns:\n    JSON string with normalization result structure produced by normalize_entity_mapping(...).\n    On error: {\"error\": \"message\"}.",
+      "module": "plugins.normalize_entity",
+      "entry_function": "run",
+      "parameters": {
+        "entity_mapping": {
+          "type": "object",
+          "required": true,
+          "description": "Input mapping containing service/offering/region fields or variants."
+        },
+        "user_ask": {
+          "type": "string",
+          "required": true,
+          "description": "Original user question/context to support model-based normalization heuristics."
+        }
+      }
+    },
+    {
+      "name": "collect_impacted_resource_customer_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "description": "Collect SLI breach data for impacted resources filtered by service tree id and customer name.\n\nReturns per-subscription/region/SLI aggregates: ImpactedResources, TotalImpactDurationMin, EarliestImpactStart, LatestImpactEnd, AvgValueAcrossWindows, MinValueAcrossWindows.\n\nParameters:\n    service_tree_id (str): Identifier of the service tree node.\n    customer_name (str): Customer name to filter subscriptions (matched against MSCustomerName).\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "SLI_KUSTO_CLUSTER",
+      "database_env": "SLI_KUSTO_DATABASE",
+      "query_file": "impacted_resource_customer.kql",
+      "parameters": {
+        "service_tree_id": {
+          "type": "string",
+          "required": true,
+          "description": "Identifier of the service tree node."
+        },
+        "customer_name": {
+          "type": "string",
+          "required": true,
+          "description": "Customer name to filter subscriptions (matched against MSCustomerName)."
+        }
+      },
+      "kusto_params": {
+        "serviceTreeId": {
+          "source": "service_tree_id"
+        },
+        "customerName": {
+          "source": "customer_name"
+        }
+      }
+    },
+    {
+      "name": "collect_customer_region_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "description": "Discover distinct regions where a customer has monitored resources for a given service.\n\nReturns distinct CustomerName, Region pairs by scanning SLI monitoring data (all resources, not just impacted) joined with customer subscription data.\n\nParameters:\n    service_tree_id (str): Identifier of the service tree node.\n    customer_name (str): Customer name to filter subscriptions (matched against MSCustomerName).\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "SLI_KUSTO_CLUSTER",
+      "database_env": "SLI_KUSTO_DATABASE",
+      "query_file": "customer_region.kql",
+      "parameters": {
+        "service_tree_id": {
+          "type": "string",
+          "required": true,
+          "description": "Identifier of the service tree node."
+        },
+        "customer_name": {
+          "type": "string",
+          "required": true,
+          "description": "Customer name to filter subscriptions (matched against MSCustomerName)."
+        }
+      },
+      "kusto_params": {
+        "serviceTreeId": {
+          "source": "service_tree_id"
+        },
+        "customerName": {
+          "source": "customer_name"
+        }
+      }
+    },
+    {
+      "name": "collect_impacted_resource_multicustomer_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "description": "Collect SLI breach data for impacted resources across all customers for a service tree id.\n\nReturns per-region/SLI aggregates without customer filtering: ImpactedResources, ImpactedSubscriptions, TotalImpactDurationMin, EarliestImpactStart, LatestImpactEnd, AvgValueAcrossWindows, MinValueAcrossWindows.\n\nParameters:\n    service_tree_id (str): Identifier of the service tree node.\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "SLI_KUSTO_CLUSTER",
+      "database_env": "SLI_KUSTO_DATABASE",
+      "query_file": "impacted_resource_multicustomer.kql",
+      "parameters": {
+        "service_tree_id": {
+          "type": "string",
+          "required": true,
+          "description": "Identifier of the service tree node."
+        }
+      },
+      "kusto_params": {
+        "serviceTreeId": {
+          "source": "service_tree_id"
+        }
+      }
+    },
+    {
+      "name": "collect_incident_details_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "max_lookback": "12h",
+      "description": "Collect recent incident details from IcM for high-severity or confirmed-outage incidents.\n\nReturns: IncidentId, Severity, IsOutage, Title, Status, CreateDate, ImpactStartDate, ChildCount, OwningTenantName, SupportTicketId.\nFilters to Severity <= 2 or IsOutage == true, within the configured lookback window (default 4h) and owning tenant names (if provided).\n\nParameters:\n    lookback_hours (str, optional): KQL timespan for the lookback window (e.g. '4h', '12h', '1d'). Defaults to '4h'.\n    owning_tenant_names (str, optional): JSON array string of owning tenant names to filter (e.g. '[\"ScaleSet Platform and Solution\"]'). If omitted or empty, returns all tenants.\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "ICM_KUSTO_CLUSTER",
+      "database_env": "ICM_KUSTO_DATABASE",
+      "query_file": "Incident_details.kql",
+      "parameters": {
+        "lookback_hours": {
+          "type": "string",
+          "required": false,
+          "default": "4h",
+          "description": "KQL timespan for the lookback window (e.g. '4h', '12h', '1d'). Defaults to '4h'."
+        },
+        "owning_tenant_names": {
+          "type": "string",
+          "required": false,
+          "default": "[]",
+          "description": "JSON array string of owning tenant names to filter (e.g. '[\"ScaleSet Platform and Solution\"]'). If empty array, returns all tenants."
+        }
+      },
+      "kusto_params": {
+        "lookbackHours": {
+          "source": "lookback_hours"
+        },
+        "owningTenantNames": {
+          "source": "owning_tenant_names"
+        }
+      }
+    },
+    {
+      "name": "collect_support_request_tool",
+      "type": "kusto",
+      "log_input": true,
+      "log_output": true,
+      "max_lookback": "12h",
+      "description": "Collect recent support requests, optionally filtered by customer name, lookback window, and support product names.\n\nReturns: CaseNumber, Title, State, IsCritSit, SupportProductName, ResourceUri, CreatedDateTime, IsEscalated, InitialSeverity, Severity, AzureSubscriptionId, Customer_CloudCustomerName.\nFilters to the configured lookback window (default 4h) and support product names (if provided).\n\nParameters:\n    customer_name (str, optional): Customer name to filter support cases (matched against Customer_CloudCustomerName). If omitted, returns support cases across all customers.\n    lookback_hours (str, optional): KQL timespan for the lookback window (e.g. '4h', '12h', '1d'). Defaults to '4h'.\n    support_product_names (str, optional): JSON array string of support product names to filter (e.g. '[\"Azure Kubernetes Service (AKS)\"]'). If omitted or empty, returns all products.\n\nReturns:\n    JSON string: {\"rows\": [...], \"count\": n} or {\"error\": \"message\"}.",
+      "cluster_env": "SUPPORT_KUSTO_CLUSTER",
+      "database_env": "SUPPORT_KUSTO_DATABASE",
+      "cert_client_id_env": "SUPPORT_AUTH_CLIENT_ID",
+      "query_file": "support_request.kql",
+      "parameters": {
+        "customer_name": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "description": "Customer name to filter support cases (matched against Customer_CloudCustomerName). If omitted, returns support cases across all customers."
+        },
+        "lookback_hours": {
+          "type": "string",
+          "required": false,
+          "default": "4h",
+          "description": "KQL timespan for the lookback window (e.g. '4h', '12h', '1d'). Defaults to '4h'."
+        },
+        "support_product_names": {
+          "type": "string",
+          "required": false,
+          "default": "[]",
+          "description": "JSON array string of support product names to filter (e.g. '[\"Azure Kubernetes Service (AKS)\"'). If empty array, returns all products."
+        }
+      },
+      "kusto_params": {
+        "customerName": {
+          "source": "customer_name"
+        },
+        "lookbackHours": {
+          "source": "lookback_hours"
+        },
+        "supportProductNames": {
+          "source": "support_product_names"
+        }
+      }
+    }
+  ]
+}

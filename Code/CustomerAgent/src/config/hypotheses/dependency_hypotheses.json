@@ -1,0 +1,23 @@
+{
+  "hypotheses": [
+    {
+      "id": "HYP-DEP-001",
+      "name": "Dependency Service Resource Exhaustion or fragmentation in compute, network, or storage pools prevented successful VM allocation, provisioning, or scaling in customer Region",
+      "statement": "Dependency service '{dependency_service_name}' is degraded in region '{region}' where the primary customer has resources. SLI breaches on dependency services (Allocator, CIS, Regional Network Manager, Xstore, etc.) in customer regions indicate resource exhaustion or infrastructure failure that will cascade into customer-visible impact.",
+      "category": "dependency",
+      "expected_symptoms": [
+        "SYM-DEP-001",
+        "SYM-DEP-002",
+        "SYM-DEP-003",
+        "SYM-SLI-001"
+      ],
+      "min_symptoms_for_match": 2,
+      "evidence_needed": [
+        "ER-DEP-002",
+        "ER-REGION-001",
+        "ER-SLI-001"
+      ],
+      "supporting_signals": "Strongest when SYM-DEP-002 or SYM-DEP-003 (multiple SLIs or multiple dependency services degraded) co-occurs with SYM-SLI-001 (primary customer already showing impact). SYM-DEP-001 alone is a proactive leading indicator — the customer may not yet be impacted, but the dependency they rely on is degraded in their region. SYM-DEP-003 (multi-dependency) suggests regional resource exhaustion. When combined with SYM-SLI-001, it confirms the cascade: dependency degradation → customer impact."
+    }
+  ]
+}

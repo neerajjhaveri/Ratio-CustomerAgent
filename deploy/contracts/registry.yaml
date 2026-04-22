@@ -1,0 +1,40 @@
+# Ratio AI — Service Registry
+# Validates that declared services exist on disk.
+# Run: python tools/validate_registry.py
+
+services:
+  # Template Layer: TEMPLATE
+  - name: ratio_agents
+    path: src/services/ratio_agents
+    port: 8000
+    health: /health
+
+  # Template Layer: TEMPLATE
+  - name: ratio_eval_sidecar
+    path: src/services/ratio_eval_sidecar
+    port: 8003
+    health: /health
+
+  # Template Layer: EXAMPLE
+  - name: ratio_outage_insights
+    path: src/services/ratio_outage_insights
+    port: 8004
+    health: /health
+
+  # Template Layer: EXAMPLE
+  - name: ratio_graph
+    path: src/services/ratio_graph
+    port: 8005
+    health: /health
+
+  # Template Layer: EXAMPLE
+  - name: ratio_sr_insights
+    path: src/services/ratio_sr_insights
+    port: 8006
+    health: /health
+
+  # Template Layer: EXAMPLE
+  - name: ratio_fuse
+    path: src/services/ratio_fuse
+    port: 8008
+    health: /health

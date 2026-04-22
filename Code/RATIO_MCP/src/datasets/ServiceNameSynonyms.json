@@ -1,0 +1,1047 @@
+{
+  "ServiceNameSynonyms": {
+    "Azure Portal IaaS Experiences": [
+      "portal iaas experiences",
+      "azure-portal-iaas-experiences"
+    ],
+    "CDN Management Service": [
+      "cdn management",
+      "cdn management svc",
+      "cdn-management-service"
+    ],
+    "Xstore": ["storage"],
+    "ESTS": [],
+    "Azure Resource Manager": [
+      "arm",
+      "azure arm",
+      "azure-resource-manager"
+    ],
+    "Fabric Platform Shared Services": [
+      "fpss",
+      "fabric platform shared svc",
+      "fabric platform shared svcs",
+      "fabric-platform-shared-services"
+    ],
+    "Azure Monitor": [
+      "monitor",
+      "azure-monitor"
+    ],
+    "Service Bus": [
+      "service-bus"
+    ],
+    "AzDev-Team Foundation Service": [
+      "tfs",
+      "azdev-team foundation",
+      "azdev-team foundation svc",
+      "azdev-team-foundation-service"
+    ],
+    "ScaleSet Platform and Solution": [
+      "scaleset",
+      "scaleset platform",
+      "scaleset-platform-and-solution"
+    ],
+    "Azure Alerts Control Plane": [
+      "alerts control plane",
+      "azure-alerts-control-plane"
+    ],
+    "Azure Virtual Desktop": [
+      "avd",
+      "virtual desktop",
+      "azure-virtual-desktop"
+    ],
+    "Azure MFA": [
+      "mfa",
+      "azure-mfa",
+      "azure multi factor auth"
+    ],
+    "Managed Service Identity": [
+      "msi",
+      "managed svc identity",
+      "managed-service-identity"
+    ],
+    "CoreWAN": [],
+    "Azure Monitor Metrics": [
+      "monitor metrics",
+      "azure-monitor-metrics"
+    ],
+    "SQL Availability and GeoDR": [
+        "sql availability",
+        "sql-availability-and-geodr"
+    ],
+    "Microsoft Intune": [
+        "intune",
+        "microsoft-intune"
+    ],
+    "Azure Kubernetes Service": [
+      "aks",
+      "azure kubernetes",
+      "kubernetes service",
+      "azure kubernetes svc",
+      "azure-kubernetes-service"
+    ],
+    "Azure Key Vault": [
+      "akv",
+      "key vault",
+      "azure-key-vault"
+    ],
+    "Azure Frontdoor": [
+      "af",
+      "frontdoor",
+      "azure-frontdoor"
+    ],    
+    "AzDev-Shared Platform Services": [
+      "asps",
+      "azdev-shared platform svc",
+      "azdev-shared platform svcs",
+      "azdev-shared-platform-services"
+    ],
+    "App Service (Web Apps)": [
+      "webapps",
+      "app svc",
+      "web apps",
+      "app-service",
+      "app service"
+    ],
+    "SQL DW Prod Clusters": [
+      "sql-dw-prod-clusters",
+      "sql dw clusters"
+    ],
+    "Azure Event Grid": [
+      "event grid",
+      "azure-event-grid"
+    ],
+    "Azure Monitor Essentials": [
+      "monitor essentials",
+      "azure-monitor-essentials"
+    ],
+    "Azure Migrate": [
+      "migrate",
+      "azure-migrate"
+    ],
+    "Azure Database for PostgreSQL - Flexible Server": [
+      "database for postgresql - flexible server",
+      "azure-database-for-postgresql---flexible-server"
+    ],
+    "Software Load Balancer": [
+      "load balancer",
+      "software-load-balancer"
+    ],
+    "LogicApps": ["logic app"],
+    "Azure Cosmos DB": [
+      "cosmos db",
+      "azurecosmosdb",
+      "azure-cosmos-db"
+    ],
+    "Azure Arc Connectivity": [
+      "arc connectivity",
+      "azure-arc-connectivity"
+    ],
+    "ExpressRoute": [],
+    "Azure Batch": [
+      "batch",
+      "azure-batch"
+    ],
+    "SRP": [],
+    "API Management": [
+      "api-management",
+      "apimanagement",
+      "apim"
+    ],
+    "Azure Site Recovery": [
+      "site recovery",
+      "azure-site-recovery"
+    ],
+    "Azure Database for MySQL - Flexible Server": [
+        "mysql flecible service",
+        "database for mysql - flexible server",
+      "azure-database-for-mysql---flexible-server"
+    ],
+    "AIOps Health Platform": [
+      "aiops-health-platform"
+    ],
+    "Azure Alerts Management": [
+      "alerts management",
+      "azure-alerts-management"
+    ],
+    "Backup (MAB)": [
+    "backup",
+      "mab",
+      "backup(mab)"
+    ],
+    "SQL Backup Restore": [
+      "sql-backup-restore"
+    ],
+    "Azure Managed Instance for Apache Cassandra - Prod": [
+      "managed instance for apache cassandra - prod",
+      "azure-managed-instance-for-apache-cassandra---prod"
+    ],
+    "Redis Enterprise": [
+      "redis",
+      "redis-enterprise"
+    ],
+    "Observability Ingestion Services": [
+      "observability ingestion svc",
+      "observability ingestion svcs",
+      "observability-ingestion-services"
+    ],
+    "AzDev-Feeds": [
+    ],
+    "Azure Search": [
+      "search",
+      "azure-search"
+    ],
+    "Container Insights": [
+      "container-insights"
+    ],
+    "Azure Communication Services": [
+      "communication services",
+      "azure communication svc",
+      "azure communication svcs",
+      "azure-communication-services"
+    ],
+    "Hybrid Resource Provider": [
+      "hybrid-resource-provider"
+    ],
+    "Azure NetApp Files": [
+      "azurenetappfiles",
+      "azurenetapp",
+      "netapp files",
+      "azure-netapp-files"
+    ],
+    "Copilot Studio - Runtime": [
+      "copilot-studio---runtime"
+    ],
+    "AzDev-User": [
+      "au"
+    ],
+    "SDN PubSub Service": [
+        "pubsub",
+        "sdn",
+      "sdn pubsub",
+      "sdn pubsub svc",
+      "sdn-pubsub-service"
+    ],
+    "Conversation Conductor": [
+      "conversation-conductor"
+    ],
+    "Application Insights": [
+      "ai",
+      "app insights",
+      "application-insights"
+    ],
+    "Azure Digital Twins": [
+      "digital twins",
+      "azure-digital-twins"
+    ],
+    "Azure Data Factory": [
+      "adf",
+      "data factory",
+      "azure-data-factory"
+    ],
+    "Azure Container Networking": [
+      "container networking",
+      "azure-container-networking"
+    ],
+    "BRAIN": [],
+    "DevCenter": [],
+    "Geneva Data Transport": [
+      "geneva-data-transport"
+    ],
+    "Spartan Data Platform Management": [
+      "sdpm",
+      "spartan-data-platform-management"
+    ],
+    "M365 Experimentation and Configuration (ECS)": [
+      "m365-experimentation-and-configuration"
+    ],
+    "IDX - Reporting and Audit Insights": [
+      "idx---reporting-and-audit-insights"
+    ],
+    "Web Defense Service": [
+      "web defense",
+      "web defense svc",
+      "web-defense-service"
+    ],
+    "Azure Device Provisioning Service": [
+      "azure device provisioning",
+      "device provisioning service",
+      "azure device provisioning svc",
+      "azure-device-provisioning-service"
+    ],
+    "Microsoft Translator": [
+      "translator",
+      "microsoft-translator"
+    ],
+    "CloudBuild": [],
+    "AI Builder - Unstructured ML": [
+      "ai-builder---unstructured-ml",
+      "aibuilder"
+    ],
+    "Trusted Launch": [
+      "trusted-launch"
+    ],
+    "Project Vienna Services": [
+      "pvs",
+      "project vienna svc",
+      "project vienna svcs",
+      "project-vienna-services"
+    ],
+    "OneDeployBuilderAndStorage": [],
+    "Plex Infrastructure": [
+      "pi",
+      "plex-infrastructure"
+    ],
+    "Connector Management Service": [
+      "cms",
+      "connector management",
+      "connector management svc",
+      "connector-management-service"
+    ],
+    "Azure Service Manager": [
+      "asm",
+      "service manager",
+      "azure svc manager",
+      "azure-service-manager"
+    ],
+    "CPIM": [],
+    "SQL Blue": [
+      "sql-blue"
+    ],
+    "AAD SyncFabric": [
+      "aad-syncfabric"
+    ],
+    "Service Map and VM Insights": [
+      "service-map-and-vm-insights"
+    ],
+    "Azure Notification Service": [
+      "azure notification",
+      "notification service",
+      "azure notification svc",
+      "azure-notification-service"
+    ],
+    "Power Automate RP": [
+      "power-automate-rp"
+    ],
+    "Business Application Platform": [
+      "business-application-platform"
+    ],
+    "Azure Resource Graph": [
+      "arg",
+      "resource graph",
+      "azure-resource-graph"
+    ],
+    "Azure OpenAI Service": [
+      "azure openai",
+      "openai service",
+      "azure openai svc",
+      "azure-openai-service"
+    ],
+    "SQL Connectivity": [
+      "sql-connectivity"
+    ],
+    "Azure Log Analytics": [
+      "log analytics",
+      "azure-log-analytics"
+    ],
+    "Azure Portal Framework (IbizaFx)": [
+      "apfi",
+      "ibizafx",
+      "portal framework",
+      "azure-portal-framework"
+    ],
+    "RDOS": [],
+    "Compute Resource Provider": [
+      "crp",
+      "compute-resource-provider"
+    ],
+    "Azure Container Apps": [
+      "aca",
+      "container apps",
+      "azure-container-apps"
+    ],
+    "Azure Databricks Service": [
+      "azuredatabricks",
+      "azure databricks",
+      "databricks service",
+      "azure databricks svc",
+      "azure-databricks-service",
+      "databricks"
+    ],
+    "Cognitive Services": [
+      "cognitive svc",
+      "cognitive svcs",
+      "cognitive-services"
+    ],
+    "Microsoft Azure Sentinel": [
+      "microsoft-azure-sentinel"
+    ],
+    "Azure Stream Analytics": [
+      "stream analytics",
+      "azure-stream-analytics"
+    ],
+    "Azure Notification Hubs": [
+      "anh",
+      "notification hubs",
+      "azure-notification-hubs"
+    ],
+    "Application Gateway": [
+      "ag",
+      "application-gateway"
+    ],
+    "Azure Data Explorer (Kusto)": [
+      "adek",
+      "kusto",
+      "data explorer",
+      "azure-data-explorer"
+    ],
+    "Fabric Network Devices": [
+      "fnd",
+      "fabric-network-devices"
+    ],
+    "Redis Cache": [
+      "rc",
+      "redis-cache"
+    ],
+    "Disk Resource Provider": [
+      "drp",
+      "disk-resource-provider"
+    ],
+    "Azure Automation": [
+      "aa",
+      "automation",
+      "azure-automation"
+    ],
+    "Security Platform (Purview)": [
+      "spp",
+      "purview",
+      "security-platform"
+    ],
+    "Machine Learning Services": [
+      "mls",
+      "machine learning svc",
+      "machine learning svcs",
+      "machine-learning-services"
+    ],
+    "OneFleet Node": [
+      "onefleet-node"
+    ],
+    "AzDev-Token": [
+    ],
+    "Observability Pipeline Delivery Services": [
+      "opds",
+      "observability pipeline delivery svc",
+      "observability pipeline delivery svcs",
+      "observability-pipeline-delivery-services"
+    ],
+    "Azure Compute Artifacts": [
+      "aca",
+      "compute artifacts",
+      "azure-compute-artifacts"
+    ],
+    "OnePubSub": [],
+    "IoT Central": [
+      "ic",
+      "iot-central"
+    ],
+    "Azure Database for MySQL - Single Server": [
+      "admss",
+      "database for mysql - single server",
+      "azure-database-for-mysql---single-server"
+    ],
+    "Host Networking": [
+      "hn",
+      "host-networking"
+    ],
+    "Jarvis": [],
+    "Azure Database for MariaDB - Single Server": [
+      "admss",
+      "database for mariadb - single server",
+      "azure-database-for-mariadb---single-server"
+    ],
+    "Regional Service Manager": [
+      "rsm",
+      "regional svc manager",
+      "regional-service-manager"
+    ],
+    "Azure Load Testing": [
+      "load testing",
+      "azure-load-testing"
+    ],
+    "Azure Container Instances": [
+      "container instances",
+      "azure-container-instances"
+    ],
+    "Azure Direct Drive": [
+      "direct drive",
+      "azure-direct-drive"
+    ],
+    "1ES Resource Management": [
+      "1rm",
+      "1es-resource-management"
+    ],
+    "Acropolis": [],
+    "UniversalStorePurchase": [],
+    "ICM Incident Management Service": [
+      "icm incident management",
+      "icm incident management svc",
+      "icm-incident-management-service"
+    ],
+    "MDM": [],
+    "IAM - Users and Tenants": [
+      "iam---users-and-tenants"
+    ],
+    "Desktop Flows Runtime Service": [
+      "desktop flows runtime",
+      "desktop flows runtime svc",
+      "desktop-flows-runtime-service"
+    ],
+    "Power Platform Connectors": [
+      "ppc",
+      "power-platform-connectors"
+    ],
+    "dSMS": [],
+    "Brain ML": [
+      "brain-ml"
+    ],
+    "Quality Test Service": [
+      "quality test",
+      "quality test svc",
+      "quality-test-service"
+    ],
+    "Azure Chaos Studio Agent Service": [
+      "azure chaos studio agent",
+      "chaos studio agent service",
+      "azure chaos studio agent svc",
+      "azure-chaos-studio-agent-service"
+    ],
+    "Cost Management Pricing Experiences": [
+      "cost-management-pricing-experiences"
+    ],
+    "Dynamics 365 - File Store Service": [
+      "dynamics 365 - file store",
+      "dynamics 365 - file store svc",
+      "dynamics-365---file-store-service"
+    ],
+    "AFD Platform": [
+      "afd-platform"
+    ],
+    "Anvil": [],
+    "Overlake Engineering System": [
+      "oes",
+      "overlake-engineering-system"
+    ],
+    "ScaleSet Platform and Solution (sli)": [
+      "scaleset sli",
+      "scaleset platform",
+      "scaleset-platform-and-solution"
+    ],
+    "Planned Maintenance": [
+      "planned-maintenance"
+    ],
+    "Azure Firewall": [
+      "firewall",
+      "azure-firewall"
+    ],
+    "Azure Privileged Identity Management": [
+      "apim",
+      "privileged identity management",
+      "azure-privileged-identity-management"
+    ],
+    "Network Resource Provider": [
+      "nrp",
+      "network-resource-provider"
+    ],
+    "Azure Container Registry": [
+      "acr",
+      "container registry",
+      "azure-container-registry"
+    ],
+    "Azure SignalR Service": [
+      "ass",
+      "azure signalr",
+      "signalr service",
+      "azure signalr svc",
+      "azure-signalr-service"
+    ],
+    "Cognitive Services Text Analytics API": [
+      "cstaa",
+      "cognitive svc text analytics api",
+      "cognitive svcs text analytics api",
+      "cognitive-services-text-analytics-api"
+    ],
+    "Azure Host Agent": [
+      "aha",
+      "host agent",
+      "azure-host-agent"
+    ],
+    "Azure Synapse Job Service": [
+      "asjs",
+      "azure synapse job",
+      "synapse job service",
+      "azure synapse job svc",
+      "azure-synapse-job-service"
+    ],
+    "SQL Control Plane": [
+      "scp",
+      "sql-control-plane"
+    ],
+    "Azure Monitor Control Service": [
+      "amcs",
+      "azure monitor control",
+      "monitor control service",
+      "azure monitor control svc",
+      "azure-monitor-control-service"
+    ],
+    "Azure Stack HCI": [
+      "ash",
+      "stack hci",
+      "azure-stack-hci"
+    ],
+    "Azure Database for PostgreSQL - Single Server": [
+      "adpss",
+      "database for postgresql - single server",
+      "azure-database-for-postgresql---single-server"
+    ],
+    "OneDrive SharePoint": [
+      "os",
+      "onedrive-sharepoint"
+    ],
+    "Copilot Studio - Platform & Extensibility": [
+      "cspe",
+      "copilot studio - platform extensibility",
+      "copilot-studio---platform-&-extensibility"
+    ],
+    "Policy Administration Service": [
+      "pas",
+      "policy administration",
+      "policy administration svc",
+      "policy-administration-service"
+    ],
+    "AzDev-Analytics": [
+      "aa"
+    ],
+    "COSMIC Platform": [
+      "cp",
+      "cosmic-platform"
+    ],
+    "Bastion": [],
+    "Dynamics 365 - Dataverse Search": [
+      "d3ds",
+      "dynamics-365---dataverse-search"
+    ],
+    "Azure Synapse Platform Service": [
+      "asps",
+      "azure synapse platform",
+      "synapse platform service",
+      "azure synapse platform svc",
+      "azure-synapse-platform-service"
+    ],
+    "Azure Chaos Studio": [
+      "acs",
+      "chaos studio",
+      "azure-chaos-studio"
+    ],
+    "DevDiv AI Services": [
+      "devdiv ai svc",
+      "devdiv ai svcs",
+      "devdiv-ai-services"
+    ],
+    "Teams Auth Service": [
+      "teams auth",
+      "teams auth svc",
+      "teams-auth-service"
+    ],
+    "Azure Analysis Services": [
+      "analysis services",
+      "azure analysis svc",
+      "azure analysis svcs",
+      "azure-analysis-services"
+    ],
+    "Perforce": [],
+    "SQL Storage Engine": [
+      "sql-storage-engine"
+    ],
+    "Guest Agent + VM Extensions": [
+      "guest agent vm extensions",
+      "guest-agent-+-vm-extensions"
+    ],
+    "Fabric Controller Fundamental Services": [
+      "fabric controller fundamental svc",
+      "fabric controller fundamental svcs",
+      "fabric-controller-fundamental-services"
+    ],
+    "Azure Hardware Datacenter Manager": [
+      "hardware dc manager",
+      "azure hardware dc manager",
+      "azure-hardware-dc-manager"
+    ],
+    "HDInsight": [],
+    "Azure AuthZ Data Plane": [
+      "aadp",
+      "authz data plane",
+      "azure-authz-data-plane"
+    ],
+    "Network Service Manager": [
+      "network svc manager",
+      "network-service-manager"
+    ],
+    "CPIM STS": [
+      "cpim-sts"
+    ],
+    "Cognitive Services Computer Vision API": [
+      "cognitive svc computer vision api",
+      "cognitive svcs computer vision api",
+      "cognitive-services-computer-vision-api"
+    ],
+    "Power Automate Portal": [
+      "pap",
+      "power-automate-portal"
+    ],
+    "Credentials Management UX": [
+      "cmu",
+      "credentials-management-ux"
+    ],
+    "AzDev-Blob Store": [
+      "abs",
+      "azdev-blob-store"
+    ],
+    "Programmability Services": [
+      "ps",
+      "programmability svc",
+      "programmability svcs",
+      "programmability-services"
+    ],
+    "Azure DNS Private Resolver": [
+      "adpr",
+      "dns private resolver",
+      "azure-dns-private-resolver"
+    ],
+    "AzDev-Test Case Management": [
+      "atcm",
+      "azdev-test-case-management"
+    ],
+    "CloudTest": [],
+    "Azure Maps": [
+      "am",
+      "maps",
+      "azure-maps"
+    ],
+    "Microsoft Graph Service": [
+      "mgs",
+      "microsoft graph",
+      "microsoft graph svc",
+      "microsoft-graph-service"
+    ],
+    "Azure DNS Public Zones": [
+      "adpz",
+      "dns public zones",
+      "azure-dns-public-zones"
+    ],
+    "ADRS": [],
+    "Sentinel US": [
+      "su",
+      "sentinel-us"
+    ],
+    "Trident DW - SQL Lake Platform": [
+      "tdslp",
+      "trident-dw---sql-lake-platform"
+    ],
+    "Azure Sphere Security Svc Gen1": [
+      "asssg",
+      "sphere security svc gen1",
+      "azure-sphere-security-svc-gen1"
+    ],
+    "Engineering Hub": [
+      "eh",
+      "engineering-hub"
+    ],
+    "Azure Portal Intelligent Experiences": [
+      "apie",
+      "portal intelligent experiences",
+      "azure-portal-intelligent-experiences"
+    ],
+    "Pilotfish": [],
+    "Incident Automation": [
+      "ia",
+      "incident-automation"
+    ],
+    "Self Service Group Management": [
+      "ssgm",
+      "self svc group management",
+      "self-service-group-management"
+    ],
+    "Azure Cloud Shell": [
+      "acs",
+      "cloud shell",
+      "azure-cloud-shell"
+    ],
+    "CoreServices Microservices Infrastructure": [
+      "cmi",
+      "coreservices-microservices-infrastructure"
+    ],
+    "Microsoft Information Protection": [
+      "mip",
+      "microsoft-information-protection"
+    ],
+    "Billing Service": [
+      "bs",
+      "billing",
+      "billing svc",
+      "billing-service"
+    ],
+    "DevDiv Data Infra: Processing (DataX)": [
+      "datax",
+      "ddipd",
+      "devdiv data infra processing",
+      "devdiv-data-infra:-processing"
+    ],
+    "Terrapin": [],
+    "TSS - ESRP FABRIC AND PLATFORM SERVICES": [
+      "tefps",
+      "tss - esrp fabric and platform svc",
+      "tss - esrp fabric and platform svcs",
+      "tss---esrp-fabric-and-platform-services"
+    ],
+    "MDE Signature Release": [
+      "msr",
+      "mde-signature-release"
+    ],
+    "Azure Core Quality Engineering": [
+      "acqe",
+      "core quality engineering",
+      "azure-core-quality-engineering"
+    ],
+    "Microsoft Entra Connect Health": [
+      "mech",
+      "microsoft-entra-connect-health"
+    ],
+    "Build Media in Azure": [
+      "bma",
+      "build-media-in-azure"
+    ],
+    "TSS - PKI - ESRP": [
+      "tpe",
+      "tss---pki---esrp"
+    ],
+    "XInvestigator": [],
+    "Azure Monitor Workspace - Data Plane - Front Door": [
+      "amwdpfd",
+      "monitor workspace - data plane - front door",
+      "azure-monitor-workspace---data-plane---front-door"
+    ],
+    "Cognitive Service Form Recognizer": [
+      "csfr",
+      "cognitive svc form recognizer",
+      "cognitive-service-form-recognizer"
+    ],
+    "Azure Policy": [
+      "ap",
+      "policy",
+      "azure-policy"
+    ],
+    "Azure Data Manager for Energy": [
+      "adme",
+      "data manager for energy",
+      "azure-data-manager-for-energy"
+    ],
+    "Azure Bot Service": [
+      "bot",
+      "abs",
+      "azure bot",
+      "azure bot svc",
+      "azure-bot-service"
+    ],
+    "Azure Deployments": [
+      "ad",
+      "deployments",
+      "azure-deployments"
+    ],
+    "AzDev-Acquisition Experience": [
+      "aae",
+      "azdev-acquisition-experience"
+    ],
+    "AzDev-Artifacts": [
+      "aa"
+    ],
+    "Geneva Diagnostics Pipeline": [
+      "gdp",
+      "geneva-diagnostics-pipeline"
+    ],
+    "Arc User Experiences": [
+      "aue",
+      "arc-user-experiences"
+    ],
+    "1ES Dev Box": [
+      "1db",
+      "1es-dev-box"
+    ],
+    "Azure Certificate Service": [
+      "acs",
+      "azure certificate",
+      "certificate service",
+      "azure certificate svc",
+      "azure-certificate-service"
+    ],
+    "OneBranch Services": [
+      "os",
+      "onebranch svc",
+      "onebranch svcs",
+      "onebranch-services"
+    ],
+    "Interflow": [],
+    "AzSwift": [],
+    "Azure Stack Bridge": [
+      "asb",
+      "stack bridge",
+      "azure-stack-bridge"
+    ],
+    "Identity Diagnostics": [
+      "identity-diagnostics"
+    ],
+    "WATM": [],
+    "Project Medeina": [
+      "pm",
+      "project-medeina"
+    ],
+    "CRM Background Task services - Sync": [
+      "cbtss",
+      "crm background task svc - sync",
+      "crm background task svcs - sync",
+      "crm-background-task-services---sync"
+    ],
+    "Video Indexer": [
+      "vi",
+      "video-indexer"
+    ],
+    "1ES-PAES": [
+      "1p"
+    ],
+    "OneDrive Consumer": [
+      "oc",
+      "onedrive-consumer"
+    ],
+    "Azure IoT Hub": [
+      "aih",
+      "iot hub",
+      "azure-iot-hub"
+    ],
+    "Media Services": [
+      "ms",
+      "media svc",
+      "media svcs",
+      "media-services"
+    ],
+    "SQL Security": [
+      "ss",
+      "sql-security"
+    ],
+    "Azure Throttling Solutions": [
+      "ats",
+      "throttling solutions",
+      "azure-throttling-solutions"
+    ],
+    "Azure DevOps Server": [
+      "ads",
+      "devops server",
+      "azure-devops-server"
+    ],
+    "AzDev-Master Partitioning Service": [
+      "amps",
+      "azdev-master partitioning",
+      "azdev-master partitioning svc",
+      "azdev-master-partitioning-service"
+    ],
+    "Windows Fabric": [
+      "wf",
+      "windows-fabric"
+    ],
+    "DNS Serving Plane": [
+      "dsp",
+      "dns-serving-plane"
+    ],
+    "AFOI-Network Cloud": [
+      "anc",
+      "afoi-network-cloud"
+    ],
+    "Azure Database Migration Service (Classic)": [
+      "dms",
+      "admsc",
+      "classic",
+      "azure dms",
+      "azure database migration",
+      "azure database migration svc",
+      "azure-database-migration-service"
+    ],
+    "Health Data DeIdentification": [
+      "hdd",
+      "health-data-deidentification"
+    ],
+    "Speech Services": [
+      "speech svc",
+      "speech svcs",
+      "speech-services"
+    ],
+    "Cirrus": [],
+    "Spares Inventory": [
+      "si",
+      "spares-inventory"
+    ],
+    "Skype Registrar": [
+      "skype-registrar"
+    ],
+    "VPN": [],
+    "USX Threat Intelligence": [
+      "usx-threat-intelligence"
+    ],
+    "AzDev-azchatops": [
+      "azdevazchatops"
+    ],
+    "Source Depot": [
+      "source-depot"
+    ],
+    "MIP Platform Services": [
+      "mps",
+      "mip platform svc",
+      "mip platform svcs",
+      "mip-platform-services"
+    ],
+    "Cost Management Actionable Experiences": [
+      "cmae",
+      "cost-management-actionable-experiences"
+    ],
+    "Network Analytics - Network Watcher": [
+      "nanw",
+      "network-analytics---network-watcher"
+    ],
+    "Azure Managed Grafana": [
+      "amg",
+      "grafana",
+      "azure grafana",
+      "azure-managed-grafana"
+    ],
+    "SxG MSaaS Case Service": [
+      "smcs",
+      "sxg msaas case",
+      "sxg msaas case svc",
+      "sxg-msaas-case-service"
+    ],
+    "Power Automate Copilot": [
+      "pac",
+      "power-automate-copilot"
+    ],
+    "OneDeploy AzDeployer": [
+      "oa",
+      "onedeploy-azdeployer"
+    ],
+    "Teams Verticals Easy Approvals": [
+      "tvea",
+      "teams-verticals-easy-approvals"
+    ],
+    "AAD Mid-tier Query Service": [
+      "amtqs",
+      "aad mid-tier query",
+      "aad mid-tier query svc",
+      "aad-mid-tier-query-service"
+    ]
+  }
+}

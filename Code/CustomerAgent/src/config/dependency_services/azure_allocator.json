@@ -1,0 +1,24 @@
+{
+  "name": "Azure Allocator",
+  "service_tree_id": "d292201e-3a06-46e4-85e8-258e04a3921f",
+  "category": "capacity_allocation",
+  "impact_description": "Handles VM placement and capacity allocation. Degradation causes VM creation/resize failures and AllocationFailed errors.",
+  "sli_symptoms": [
+    {
+      "sliId": "ReservationServiceAPI.ReservationService Availability Rate v2.Signal",
+      "symptoms": ["VM creation and resize operations fail to start", "AllocationFailed errors increase on VM operations"]
+    },
+    {
+      "sliId": "AzAllocatorAPI.AllocatorWorker Availability Rate v2.Signal",
+      "symptoms": ["VM creation and resize operations fail to start", "AllocationFailed errors increase on VM operations"]
+    },
+    {
+      "sliId": "AzAllocatorAPI.PlacementStore Availability Rate v3.Signal",
+      "symptoms": ["VM creation and resize operations fail to start", "AllocationFailed errors increase on VM operations"]
+    },
+    {
+      "sliId": "AzAllocatorAPI.Allocation Success Rate v2.Signal",
+      "symptoms": ["VM creation and resize operations fail to start", "AllocationFailed errors increase on VM operations", "Stopped-deallocated VMs cannot be started"]
+    }
+  ]
+}

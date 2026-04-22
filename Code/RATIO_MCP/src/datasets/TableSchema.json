@@ -1,0 +1,245 @@
+{
+    "tables": {
+        "fact_outage": {
+            "description": "This table contains information about outages, including the incident ID, date of the incident, severity, status, and other related details.",
+            "columns": [
+                {
+                    "name": "IncidentId",
+                    "type": "int",
+                    "description": "Unique identifier for the ICM incident created when monitors detect an issue or user reports an issue"
+                },
+                {
+                    "name": "IncidentCreateDate",
+                    "type": "datetime",
+                    "description": "Date of the incident creation."
+                },
+                {
+                    "name": "Severity",
+                    "type": "int",
+                    "description": "Severity of the incident, e.g., 0, 1, 2, 3, 4, 25"
+                },
+                {
+                    "name": "IncidentStatus",
+                    "type": "string",
+                    "description": "Current status of the incident"
+                },
+                {
+                    "name": "IsOutage",
+                    "type": "int",
+                    "description": "Incident is an outage or not 1 is outage, 0 is not outage"
+                },
+                {
+                    "name": "IsQCO",
+                    "type": "int",
+                    "description": "Incident is a QCO or not 1 is QCO, 0 is not QCO"
+                },
+                {
+                    "name": "TTM",
+                    "type": "string",
+                    "description": "Time taken to mitigate the incident"
+                },
+                {
+                    "name": "TTN",
+                    "type": "string",
+                    "description": "Time taken to notify the customer."
+                },
+                {
+                    "name": "TotalCasesManualLinked",
+                    "type": "string",
+                    "description": "Total number of cases manually linked to the incident."
+                },
+                {
+                    "name": "TotalCritSitsManualLinked",
+                    "type": "string",
+                    "description": "Total number of critical situations manually linked to the incident."
+                },
+                {
+                    "name": "RepairCount",
+                    "type": "string",
+                    "description": "Number of repairs associated with the incident"
+                },
+                {
+                    "name": "AcmImpactedSubCount",
+                    "type": "string",
+                    "description": "Number of impacted subscriptions associated with the incident"
+                },
+                {
+                    "name": "OwningServiceOid",
+                    "type": "string",
+                    "description": "Service ID that owns the incident"
+                },
+                {
+                    "name": "OwningServiceName",
+                    "type": "string",
+                    "description": "Name of the service that owns the incident"
+                },
+                {
+                    "name": "OwningServiceName",
+                    "type": "string",
+                    "description": "Name of the service that owns the incident"
+                },
+                {
+                    "name": "MitigateDate",
+                    "type": "datetime",
+                    "description": "The date when the incident was mitigated by the owning team"
+                }
+            ]
+        },
+        "airo_offeringoutageairo": {
+            "description": "This table contains information about outages impact on Offerings, active resources, impacted resources related to offerings for given incident at various granularities, such as fleet, region, customer and customer region and subscription.",
+            "columns": [
+                {
+                    "name": "IncidentId",
+                    "type": "int",
+                    "description": "Unique identifier for the ICM incident but represents only outages."
+                },
+                {
+                    "name": "CalDay",
+                    "type": "datetime",
+                    "description": "Equivalent to IncidentCreateDate, it represents the date of the incident creation"
+                },
+                {
+                    "name": "Offering",
+                    "type": "string",
+                    "description": "An incident can impact one or more offerings. This column contains the name of the offering impacted by the incident."
+                },
+                {
+                    "name": "PrimaryImpactedService",
+                    "type": "string",
+                    "description": "Name of the primary impacted service."
+                },
+                {
+                    "name": "Region",
+                    "type": "string",
+                    "description": "Region where the impact was observed"
+                },
+                {
+                    "name": "CustomerName",
+                    "type": "string",
+                    "description": "Name of the customer impacted by the Outage."
+                },
+                {
+                    "name": "AR_Fleet",
+                    "type": "int",
+                    "description": "AR_Fleet is the total number of active resources in the fleet (worldwide) for a given offering."
+                },
+                {
+                    "name": "AR_Region",
+                    "type": "int",
+                    "description": "AR_Region is the total number of active resources in the region for a given offering."
+                },
+                {
+                    "name": "AR_Customer",
+                    "type": "int",
+                    "description": "AR_Customer is the total number of active resources for a given customer and offering."
+                },
+                {
+                    "name": "AR_CustomerRegion",
+                    "type": "int",
+                    "description": "AR_CustomerRegion is the total number of active resources for a given customer, offering, and region."
+                },
+                {
+                    "name": "ImpactedResource",
+                    "type": "int",
+                    "description": "Number of the resource impacted by the outage for a lowest grainularity of the table which is Offering, IncidentId, Region, Customer, CustomerRegion."
+                },
+                {
+                    "name": "ImpactDuration",
+                    "type": "int",
+                    "description": "Duration of the impact in minutes."
+                },
+                {
+                    "name": "AIRO_Fleet",
+                    "type": "double",
+                    "description": "AIRO_Fleet is AIRO computed for offering, IncidentId"
+                },
+                {
+                    "name": "AIRO_Region",
+                    "type": "double",
+                    "description": "AIRO_Region is AIRO computed for offering, IncidentId, Region."
+                },
+                {
+                    "name": "AIRO_Customer",
+                    "type": "double",
+                    "description": "AIRO_Customer is AIRO computed for offering, IncidentId, Customer."
+                },
+                {
+                    "name": "AIRO_CustomerRegion",
+                    "type": "double",
+                    "description": "AIRO_CustomerRegion is AIRO computed for offering, IncidentId, Customer, Region."
+                },
+                {
+                    "name": "AIROD_Fleet",
+                    "type": "double",
+                    "description": "AIROD_Fleet is AIROD computed for offering, IncidentId."
+                },
+                {
+                    "name": "AIROD_Region",
+                    "type": "double",
+                    "description": "AIROD_Region is AIROD computed for offering, IncidentId, Region."
+                },
+                {
+                    "name": "AIROD_Customer",
+                    "type": "double",
+                    "description": "AIROD_Customer is AIROD computed for offering, IncidentId, Customer."
+                },
+                {
+                    "name": "AIROD_CustomerRegion",
+                    "type": "double",
+                    "description": "AIROD_CustomerRegion is AIROD computed for offering, IncidentId, Customer, Region."
+                }
+            ]
+        },
+        "factless_supportcasetoincidentmap": {
+            "description": "This table maps support cases to incidents, providing details about the support case status, creation date, and whether it is a critical situation (CritSit).",
+            "columns": [
+                {
+                    "name": "ManualLinkedIncidentId",
+                    "type": "int",
+                    "description": "Unique identifier for the ICM incident."
+                },
+                {
+                    "name": "CaseNumber",
+                    "type": "int",
+                    "description": "Unique identifier for the support case."
+                },
+                {
+                    "name": "CreatedOn",
+                    "type": "datetime",
+                    "description": "Date of the support case creation."
+                },
+                {
+                    "name": "State",
+                    "type": "string",
+                    "description": "Current State of the support case."
+                },
+                {
+                    "name": "IsCritSit",
+                    "type": "boolean",
+                    "description": "Indicates if the support case is a critical situation (CritSit)."
+                },
+                {
+                    "name": "SubscriptionId",
+                    "type": "string",
+                    "description": "Subscription ID associated with the support case."
+                }
+            ]
+        }
+    },
+    "relationships": [
+        {
+            "from": "Fact_Outage",
+            "to": "Factless_SupportCaseToIncidentMap",
+            "type": "one-to-many",
+            "JoinKey": "IncidentId",
+            "description": "One incident can have multiple support cases linked to it. The relationship is based on the IncidentId in Fact_Incident and ManualLinkedIncidentId in Factless_SupportCaseToIncidentMap."
+        },
+        {
+            "from": "OfferingOutageAiro",
+            "to": "Fact_Outage",
+            "type": "many-to-one",
+            "joinKey": "IncidentId",
+            "description": "An outage is associated with multiple offerings. The relationship is based on the IncidentId in OfferingOutageAiro and IncidentId in Fact_Outage."
+        }
+    ]
+}

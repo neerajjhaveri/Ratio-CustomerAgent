@@ -1,0 +1,177 @@
+Database Schema:
+
+Table: Fact_Outage
+Granularity: IncidentId
+Description : Contains Outage related metrics and flags
+-------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| IncidentId | INT | (PRIMARY KEY) Incident Identifier | True |
+| IncidentTitle | VARCHAR | Title of the Incident | False |
+| IncidentLink | VARCHAR | Link of Incident to ICM Portal | False |
+| IncidentStatus | VARCHAR | Status of the incident (Active, Acknowledged, Mitigated, Resolved) | True |
+| IncidentType | VARCHAR | Livesite or CustomerReported | True |
+| Severity | INT | Severity of the Incident | True |
+| IsOutage | BOOLEAN | whether the Incident is declared as outage or not | True |
+| IsQCO | BOOLEAN | If incident is Quality Critical Outage or not | True |
+| IsRootResponsible | BOOLEAN | If the Incident is origin of issue, there is no parent incident associated | True |
+| DetectedByBrain | INT | If the Incident was detected by Brain system | False |
+| IsCRI | INT | If the Incident is Customer Raised | False |
+| ImpactStartDate | DATETIME | The time when the customer started to observe the impact | True |
+| IncidentCreateDate | DATETIME | The timestamp when the Incident was created in ICM application | True |
+| OutageDeclaredDate | DATETIME | The timestamp when Incident was declared as an Outage | True |
+| MitigateDate | DATETIME | Incident Mitigation timestamp | True |
+| IncidentSiloId | BIGINT | The cloud the incident is associated with (e.g. Public, Fairfax) | False |
+| PIRReportId | BIGINT | Post Incident Report Id Associated with the Incident | False |
+| IsPrimaryPIR | BOOLEAN | If the PIRReportId associated with incident is primary PIR | False |
+| OwningServiceName | VARCHAR | The Service which owns the incident | True |
+| OwningTenantName |  VARCHAR | The ICM Tenant which owns the Incident | False | 
+| OwningTeamName |  VARCHAR | The ICM Team which owns the Incident | False | 
+| ResponsibleTenantName | VARCHAR | The ICM Tenant who is responsible for the Incident | False | 
+| ResponsibleTeamName | VARCHAR | The ICM Team who is responsible for the Incident | False |
+| RootCauseId | BIGINT | Root Cause Identifier.  | False |
+| IsMultiRegion | INT | If the Incident has Multi Region impact | True |
+| IsHighImpactOutage | INT | If the Incident is fitting in criteria of high impact outage | True  |
+| IsCausedByChange | BOOLEAN | If the Incident is caused by a change in code | True |
+| IsManualDetection | BOOLEAN | If the issue was detected manually and not by any monitors or by brain system | True |
+| IsPartnerDetected | INT | If Incident was detected by partner team | False  |
+| IsCustomerImpacting | bit | If Incident is Customer Impacting | False |
+| TTD | FLOAT | Time differene between first time the impact was observed and Incident was created. | False |
+| TTEng | FLOAT | The Time difference between Impact was observed and engineers enagaged | False |
+| TTE | FLOAT | The Time difference between Impact was observed and engineers enagaged | False |
+| TTO | INT | Time to outage is the time difference between Outage declaration and Impact Observed time | True |
+| TTOMin | BIGINT | Time to outage is the time difference between First Outage declaration and Impact Observed time | False |
+| TTM | FLOAT | Time taken to mitigate the incident from ImpactStartDate | True |
+| TTN | FLOAT | Time taken to notify first customer since issue identification | True |
+| TTC | FLOAT | Time to Create First Critical Situation (Sev A) Support Case from Impact Observed timestamp  | True |
+| TTSR | FLOAT | Time to Create First Support Case from Impact Observed timestamp  | False |
+| RepairCount | BIGINT | The number of repair items that are associated with the Incident | True  |
+| ImpactedTenantCount | BIGINT | Number of tenants observed impact due to the Incident | False |
+| AcmImpactedSubCount | BIGINT | The number of customer subscriptions that were communicated due to the Incident | True |
+| TotalCases | BIGINT | The number customer support cases associated with the Incident | False |
+| TotalCritSits | BIGINT | The number Critical Situation (Sev A) support cases associated with the Incident | False |
+| MCSubscriptionCount | BIGINT | The number of Mission Critical Subscription communicated due to Incident | False |
+
+
+Table: Fact_CritSit 
+Granularity: IncidentId
+Description: CritSit metrics associated with IncidentId
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| IncidentId | BIGINT | Incident Identifier | True |
+| ImpactStartDate | DATETIME2 | The time when the customer started to observe the impact | False |
+| TotalCases | BIGINT | Total Support Cases associated/linked with IncidentId | True |
+| TotalCritSits | BIGINT | Total Critical Situation Cases (Sev A) associated/linked with IncidentId | True |
+| FirstCritSitId | BIGINT | First Sev A Associated with IncidentId | False |
+| FirstCritSitCreatedOn | DATETIME2 | First Sev A created timestamp which is Associated with IncidentId  | True |
+| FirstCritSitLinkedOn | DATETIME2 |  First Sev A linked timestamp with IncidentId | True |
+| TotalCritSitsManualLinked | BIGINT | Total Critical Situation Cases (Sev A) manually linked with IncidentId | True | 
+| TotalCritSitsMLLinked | BIGINT | Total Critical Situation Cases (Sev A) ML linked with IncidentId | True |
+| TTC | FLOAT | Time to create CritSit to Incident Id from Impact Start Date | True |
+| TTLC | FLOAT | Time To link critsit to Incident Id from Impact Start Date | True |
+
+
+
+Table: Factless_SupportCaseToIncidentMap
+Granularity: CaseNumber, ManualLinkedIncidentId, MLLinkedIncidentId
+Description: Contains Support cases and related metadata such as manually linked and ML linked Incidents, CritSits (Sev A Support Cases).
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| CaseNumber | BIGINT | Support case number (created by customer) | True |
+| ManualLinkedIncidentId | INT | IncidentId that are manually linked with support case (Foreign Key to Fact_Outage) | True |
+| MLLinkedIncidentId | INT | IncidentId that are linked with support case by ML Model (Foreign Key to Fact_Outage) | True |
+| IsCritSit | BOOLEAN | Is it Sev A support case | True |
+| ProductName | CARCHAR | Product for which Support case has been raised | True |
+| CustomerName | VARCHAR | Customer raising the support case | True |
+| Location | VARCHAR | The regions used when support case was created | False |
+| CreatedOn | DATETIME | The timestamp at which the case was created by customer | True |
+
+
+Table: Fact_CustomerTTN 
+Granularity: IncidentId, ServiceName, SubscriptionId
+Description: Fact table having outage communication related metrics. Metrics are calculated at various grains such as ServiceTTNInMinutes signifies Minimum time it took to notify first customer for given Service.
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| IncidentId | INT | Incident Identifier (Foreign Key to Fact_Outage) | True |
+| ServiceName | INT | The service which got impacted due to the Incident. | True |
+| CustomerName | VARCHAR | The Customer who got impacted due to the Incident and was communicated | False |
+| SubscriptionId | VARCHAR | The Customer Subscription which got impacted due to the Incident and was communicated | False |
+| IsSubscriptionAutoComm | BOOLEAN | The Subscription communication was Auto Comm or Manual Comm | True |
+| CommunicationPlane | VARCHAR | The communication was at Data Plane or Control Plane Level | False |
+| ServiceTTNInMinutes | DECIMAL | Minimum Time To Notify after outage was declared | True |
+| FirstCommTimeService | DATETIME | First Communication Timestamp at Service level | False |
+| ServiceCustomerTTNInMinutes | DECIMAL | Minimum Time to Notify to given customer after outage was declared | False |
+| FirstCommTimeServiceCustomer | DATETIME | First Communication Timestamp at Service and Customer level | False |
+| ServiceSubscriptionTTNInMinutes | DECIMAL | Minimum Time to Notify to given customer Subscription after outage was declared | False |
+| FirstCommTimeServiceSubscription | DATETIME | First Communication Timestamp at Service and Subscription level | False |
+
+
+Table: QEIS500_Customers 
+Granularity: SubscriptionId
+Description: Table contains master list of Customer subscriptions which are part of Quality Excellence Initiative and if customer is also a S500.
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| TPID | INT | Customer Top Parent Id for QEI and S500 Customers | False |
+| CustomerName | VARCHAR | The Customer who got impacted due to the Incident and was communicated | False |
+| SubscriptionId | VARCHAR | The Customer Subscription which got impacted due to the Incident and was communicated | False |
+| IsS500 | BOOLEAN | Whether the QEI customer is also a S500 customer. | False |
+
+Table: Fact_MsoExploded
+Granularity: ResponsibleIncidentId, ImpactedIncidentId, ProductName
+Description: Contains impacted Incidents, Services, CrisitCount and products due to Responsible Incident.
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| ResponsibleIncidentId | BIGINT | Responsible Incident which is parent of one or more incidents | True |
+| ImpactedIncidentId | BIGINT | Impacted Incident Id due to ResponsibleIncidentId | False |
+| IsOutage | INT | If Impacted Incident is an Outage | False |
+| ImpactedService | VARCHAR | The Impacted Incident owning service | False |
+| IsQCService | INT | If Impacted Incident Owning Service is Quality Critical Service | False |
+| ProductName | VARCHAR | This is the product associated with CritSit (Sev A) case linked to Impacted Incident Id | False |
+| CritSitCount | BIGINT | The number of CritSits (Sev A) cases associated with Impacted Incident | True |
+| DetectedByForerunner | INT | If the Impacted Incident is detected by Forerunner model | True |
+
+Table: Fact_IcmEvent
+Granularity: ResponsibleIncidentId
+Description: Contains event level (ResponsibleIncidentId/EventId) metrics aggregated across all child incidents (including the Event Itself)
+----------------------------------------------------------------
+| ColumnName | Type | Description | AlwaysIncludeInAnalysis |
+|------------|------|-------------|-------------------------|
+| ResponsibleIncidentId | BIGINT | (aka EventId) Its a root parent incident Id responsible for one or more child outages | True |
+| AggregatedAcmSubCount | BIGINT | Number of customer subscriptions communicated aggregated across all child outages | False |
+| AggregatedCritSits | BIGINT | Total Number of critsits (Sev A Support requests/cases) linked to Incidents that are linked to ResponsibleIncidentId | True |
+| AggregatedSR | BIGINT | Total Number of support requests/cases  linked to Incidents that are linked to ResponsibleIncidentId | False |
+| TotalQCO | BIGINT | Number of Quality Critical outages associated with ResponsibleIncidentId | True |
+| TotalLinkedIncidents | BIGINT | Number Incidents associated with ResponsibleIncidentId | True |
+| TotalImpactedServices | BIGINT | Number of services observed the impact due to ResponsibleIncidentId | True |
+| IsQCO_Root | INT | If ResponsibleIncidentId is a Quality Critical Outage | False |
+| IsOutage_Root | INT | If ResponsibleIncidentId is an Outage | False |
+| IsAzureScope_Root | BIGINT | If ResponsibleIncidentId Is owned by Azure Service  | False |
+| IsCausedByChange_Root | bit | If ResponsibleIncidentId Is caused by a change deployment/release  | False |
+| ServiceName_Root | VARCHAR | The Name of the service who owns ResponsibleIncidentId | True |
+| OrganizationName_Root | VARCHAR | The Name of the Organization who owning ResponsibleIncidentId | False |
+| Severity_Root | INT | Severity of ResponsibleIncidentId | False |
+| DetectionCategory_Root | VARCHAR | Detection Category (manually or automated) of ResponsibleIncidentId | False |
+| ImpactedTenantCount_Root | BIGINT | Number of tenants impacted due to ResponsibleIncidentId | False |
+| OccurringDatacenter_Root | VARCHAR | The datacenter where the issue occured | False |
+| FirstImpactStartDate | DATETIME2 | First impact start date among all child incidentd associated with ResponsibleIncidentId | True |
+| FirstImpactStartDate_IncidentId | BIGINT | Impact start date for ResponsibleIncidentId | False |
+| FirstIncidentCreateDate | DATETIME2 | First Incident create date among all child incidentd associated with ResponsibleIncidentId  | True |
+| FirstIncidentCreateDate_IncidentId | BIGINT | Incident Create Date for ResponsibleIncidentId | False |
+| FirstOutageDeclaredDate | DATETIME2 | First Outage Declared date among all child incidentd associated with ResponsibleIncidentId  | True |
+| FirstOutageDeclaredDate_IncidentId | BIGINT | Outage Declared Date for ResponsibleIncidentId | False |
+| FirstCommunicationDate | DATETIME2 | First communication date among all child incidentd associated with ResponsibleIncidentId  | True |
+| FirstCommunicationDate_IncidentId | BIGINT | First Communicate date for ResponsibleIncidentId | False |
+| FirstCritSitCreatedOn | DATETIME2 | First CritSit Create Date (Sev A) among all child incidentd associated with ResponsibleIncidentId  | True |
+| FirstCritSitCreatedOn_IncidentId | BIGINT | First CritSit Create Date (Sev A) for ResponsibleIncidentId | False |
+| LastOutageMitigateDate | DATETIME2 | Last Mitigate date among all child incidentd associated with ResponsibleIncidentId  | True |
+| LastOutageMitigateDate_IncidentId | BIGINT | Mitigate date for ResponsibleIncidentId  | False |
+| TTD_EventLevel | FLOAT | Time to detect across all incidents associated with ResponsibleIncidentId | True |
+| TTO_EventLevel | FLOAT | Time to outage across all incidents associated with ResponsibleIncidentId | True |
+| TTN_EventLevel | FLOAT | Time to Notify (communication) across all incidents associated with ResponsibleIncidentId | True |
+| TTC_EventLevel | FLOAT | Time to CritSit across all incidents associated with ResponsibleIncidentId | True |
+| TTM_EventLevel | FLOAT | Time to Mitigate across all incidents associated with ResponsibleIncidentId | True |
